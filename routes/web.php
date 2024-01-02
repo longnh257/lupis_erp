@@ -23,3 +23,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home_page');
 });
 
+Route::middleware(['checkRole:admin'])->group(function () {
+    Route::get('/admin-only', function () {
+        return 'Chào mừng bạn, admin!';
+    });
+});
+
+// Route cho người dùng không có quyền 'admin'
+Route::get('/no-access', function () {
+    return 'Bạn không có quyền truy cập!';
+});
+
