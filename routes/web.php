@@ -29,8 +29,3 @@ Route::middleware(['checkRole:admin'])->group(function () {
     });
 });
 
-// Route cho người dùng không có quyền 'admin'
-Route::get('/no-access', function () {
-    return 'Bạn không có quyền truy cập!';
-});
-
