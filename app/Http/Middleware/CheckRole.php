@@ -16,10 +16,8 @@ class CheckRole
         if (Auth::check()) {
             // Kiểm tra xem người dùng có quyền truy cập không
             $user = User::find(Auth::id());
-            foreach ($roles as $role) {
-                if ($user->hasRole($role)) {
-                    return $next($request);
-                }
+            if (in_array($user->role->name, $roles)) {
+                return $next($request);
             }
         }
 

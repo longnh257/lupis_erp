@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Đăng nhập thành công
+            User::find(Auth::id())->logActivity('login', 'Đăng nhập', Auth::id(), Auth::id());
             return redirect()->intended('/');
         }
 

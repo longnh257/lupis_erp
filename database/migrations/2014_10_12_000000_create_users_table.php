@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->smallInteger('gender')->nullable();
             $table->string('address')->nullable();
+            $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->string('CID')->nullable();
             $table->string('avatar')->nullable();

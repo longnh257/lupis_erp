@@ -23,8 +23,10 @@
                 </svg>
             </div>
             <ul class="main-menu">
-                
-                <li class="slide has-sub {{ request()->is(['customer','customer/*','function*','nationality*','native-language*']) ? 'open' : '' }}">
+
+                <!--    <li class="slide has-sub {{ request()->is(['customer','customer/*','function*','nationality*','native-language*']) ? 'open' : '' }}"> -->
+                @if(Auth::user()->role_id==1)
+                <li class="slide has-sub open">
                     <a href="javascript:void(0);" class="side-menu__item {{ request()->is(['customer','customer/*','function*','nationality*','native-language*']) ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0V0z" fill="none" />
@@ -35,13 +37,13 @@
                         <i class="fe fe-chevron-right side-menu__angle"></i>
                     </a>
                     <ul class="slide-menu child1">
-
                         <li class="slide has-sub">
-                            <a href="{{asset('/customer')}}" class="side-menu__item {{ request()->is(['customer','customer/*']) ? 'active' : '' }}"> {{ trans('label.customer') }}</a>
+                            <a href="{{asset('/user')}}" class="side-menu__item {{ request()->is(['user','user/*']) ? 'active' : '' }}">Người Dùng</a>
                         </li>
-                       
+
                     </ul>
                 </li>
+                @endif
 
                 <li class="slide">
                     <a href="{{asset('/customer-office')}}" class="side-menu__item {{ request()->is(['customer-*']) ? 'active' : '' }}">
@@ -51,6 +53,17 @@
                             <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
                         </svg>
                         <span class="side-menu__label">{{ trans('label.customer_office') }}</span>
+                    </a>
+                </li>
+
+                <li class="slide">
+                    <a href="{{asset('/user/profile')}}" class="side-menu__item {{ request()->is(['user/profile*']) ? 'active' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" />
+                            <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
+                        </svg>
+                        <span class="side-menu__label">Thông tin người dùng</span>
                     </a>
                 </li>
 
