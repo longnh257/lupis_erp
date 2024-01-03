@@ -35,8 +35,8 @@ class UserPageController extends Controller
                 'role_id' => 'required',
                 'address' => 'max:191',
             ],
-            trans('validation.messages'),
-            trans('validation.attributes'),
+            trans('userValidation.messages'),
+            trans('userValidation.attributes'),
         );
 
         User::create([
@@ -74,8 +74,8 @@ class UserPageController extends Controller
                 'role_id' => 'required',
                 'address' => 'max:191',
             ],
-            trans('validation.messages'),
-            trans('validation.attributes'),
+            trans('userValidation.messages'),
+            trans('userValidation.attributes'),
         );
 
         $cred = [
@@ -133,8 +133,8 @@ class UserPageController extends Controller
 
         $request->validate(
             $validations,
-            trans('validation.messages'),
-            trans('validation.attributes'),
+            trans('userValidation.messages'),
+            trans('userValidation.attributes'),
         );
 
         $model->update($cred);
