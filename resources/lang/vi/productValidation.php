@@ -13,9 +13,8 @@ return [
         'required' => ':attribute là trường bắt buộc, không được để trống.',
         'max' => ':attribute không được quá :max ký tự',
         'min' => ':attribute không được ít hơn :min ký tự',
-        'regex' => ':attribute không hợp lệ',
         'confirmed' => ':attribute không khớp',
-        'password.confirmed' => 'Mật khẩu và xác nhận mật khẩu không giống nhau.',
+        'numeric' => ':attribute phải là số',
         //end user validate
     ],
 ];

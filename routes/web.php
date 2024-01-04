@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\API\MaterialController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Pages\AuthController;
 use App\Http\Controllers\Pages\EventPageController;
 use App\Http\Controllers\Pages\HomeController;
-use App\Http\Controllers\Pages\MaterialPageController;
+use App\Http\Controllers\Pages\OrderPageController;
+use App\Http\Controllers\Pages\ProductPageController;
 use App\Http\Controllers\Pages\UserPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,13 +47,23 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //User
-    Route::group(['prefix' => 'material'], function () {
-        Route::get('/', [MaterialPageController::class, 'index'])->name('view.material.index');
-        Route::get('/create', [MaterialPageController::class, 'create'])->name('view.material.create');
-        Route::post('/', [MaterialPageController::class, 'store'])->name('view.material.store');
-        Route::get('/edit/{model}', [MaterialPageController::class, 'edit'])->name('view.material.edit');
-        Route::put('/{model}', [MaterialPageController::class, 'update'])->name('view.material.update');
-        Route::delete('/{model}', [MaterialPageController::class, 'destroy'])->name('view.material.destroy');
+    Route::group(['prefix' => 'product'], function () {
+        Route::get('/', [ProductPageController::class, 'index'])->name('view.product.index');
+        Route::get('/create', [ProductPageController::class, 'create'])->name('view.product.create');
+        Route::post('/', [ProductPageController::class, 'store'])->name('view.product.store');
+        Route::get('/edit/{model}', [ProductPageController::class, 'edit'])->name('view.product.edit');
+        Route::put('/{model}', [ProductPageController::class, 'update'])->name('view.product.update');
+        Route::delete('/{model}', [ProductPageController::class, 'destroy'])->name('view.product.destroy');
+    });
+
+    //User
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('/', [OrderPageController::class, 'index'])->name('view.order.index');
+        Route::get('/create', [OrderPageController::class, 'create'])->name('view.order.create');
+        Route::post('/', [OrderPageController::class, 'store'])->name('view.order.store');
+        Route::get('/edit/{model}', [OrderPageController::class, 'edit'])->name('view.order.edit');
+        Route::put('/{model}', [OrderPageController::class, 'update'])->name('view.order.update');
+        Route::delete('/{model}', [OrderPageController::class, 'destroy'])->name('view.order.destroy');
     });
 
     Route::group(['prefix' => 'event'], function () {
@@ -69,8 +81,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [UserController::class, 'index'])->name('api.user.list');
         });
 
-        Route::group(['prefix' => 'material'], function () {
-            Route::get('/', [MaterialController::class, 'index'])->name('api.material.list');
+        Route::group(['prefix' => 'product'], function () {
+            Route::get('/', [ProductController::class, 'index'])->name('api.product.list');
+        });
+
+        Route::group(['prefix' => 'order'], function () {
+            Route::get('/', [OrderController::class, 'index'])->name('api.order.list');
         });
     });
 });

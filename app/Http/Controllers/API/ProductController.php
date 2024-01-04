@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Material;
+use App\Models\Product;
 
 
-class MaterialController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class MaterialController extends Controller
     public $numPerPage = 10;
     public function index(Request $request)
     {
-        $query  = Material::query();
+        $query  = Product::query();
         if ($s = $request->has("s")) {
             $query->where("name", "LIKE", "%" . $s . "%");
         }

@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Material')
+@section('title', 'Product')
 
 @section('content')
-<form action="{{route('view.material.store')}}" method="post" enctype="multipart/form-data" class="container-fluid">
+<form action="{{route('view.product.store')}}" method="post" enctype="multipart/form-data" class="container-fluid">
     @csrf
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -13,7 +13,7 @@
         <div class="main-dashboard-header-right">
             <div class="d-flex my-xl-auto right-content align-items-center">
                 <div>
-                    <a href="{{route('view.material.index')}}" class="btn btn-danger btn-icon me-2 btn-b" title="Quay lại danh sách material">
+                    <a href="{{route('view.product.index')}}" class="btn btn-danger btn-icon me-2 btn-b" title="Quay lại danh sách product">
                         <i class="bi bi-box-arrow-left"></i>
                     </a>
                 </div>

@@ -1,23 +1,23 @@
 @extends('layouts.master')
 
-@section('title', 'Material')
+@section('title', 'Product')
 
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div class="my-auto">
-            <h4 class="mb-0">Nguyên liệu</h4>
+            <h4 class="mb-0">Đơn Hàng</h4>
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Trang Chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Nguyên liệu</li>
+                    <li class="breadcrumb-item active" aria-current="page">Đơn Hàng</li>
                 </ol>
             </nav>
         </div>
         <div class="d-flex my-xl-auto right-content align-items-center">
             <div>
-                <a href="{{route('view.material.create')}}" class="btn btn-info btn-icon btn-b" target="_blank">
+                <a href="{{route('view.order.create')}}" class="btn btn-info btn-icon btn-b" target="_blank">
                     <i class="fe fe-plus"></i></a>
             </div>
         </div>
@@ -37,7 +37,7 @@
             <div class="card card-table">
                 <div class=" card-header p-0 d-flex justify-content-between mb-2">
                     <div class="card-title">
-                        Danh Sách Nguyên Liệu
+                        Danh Sách Đơn Hàng
                     </div>
                     <a href="javascript:void(0);" class="btn btn-icon btn-sm btn-light bg-transparent rounded-pill" data-bs-toggle="dropdown"><i class="fe fe-more-horizontal"></i></a>
                     <div class="dropdown-menu">
@@ -97,8 +97,8 @@
                                 <td>((item.quantity))</td>
                                 <td>
                                     <div class="hstack gap-2 ">
-                                        <a :href="`{{asset('material')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                        <form :action="`{{asset('material')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
+                                        <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
+                                        <form :action="`{{asset('order')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
                                             @method('DELETE')
                                             @csrf
                                             <a href="##" @click="deleteItem(item.id)" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
@@ -229,7 +229,7 @@
                 this.conditionSearch = conditionSearch;
                 jQuery.ajax({
                     type: 'GET',
-                    url: "{{route('api.material.list')}}" + conditionSearch,
+                    url: "{{route('api.order.list')}}" + conditionSearch,
                     success: function(data) {
                         that.list = data.result.data;
                         that.count = data.result.last_page;
