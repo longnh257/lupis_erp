@@ -7,8 +7,8 @@
 <!-- Page Header -->
 <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
     <div>
-        <h4 class="mb-0">{{ trans('user.user_edit') }}</h4>
-        <p class="mb-0 text-muted">{{ trans('user.user_edit_desc') }}</p>
+        <h4 class="mb-0">{{ trans('product.product_edit') }}</h4>
+        <p class="mb-0 text-muted">{{ trans('product.product_edit_desc') }}</p>
     </div>
 </div>
 <!-- End Page Header -->
@@ -20,7 +20,7 @@
 </div>
 @endforeach
 @endif
-<form action="{{route('view.user.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
+<form action="{{route('view.product.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
     @csrf
     @method('PUT')
     <div class="row">
@@ -28,7 +28,7 @@
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
-                        Thông tin user
+                        Thông Tin Sản Phẩm
                     </div>
 
                 </div>

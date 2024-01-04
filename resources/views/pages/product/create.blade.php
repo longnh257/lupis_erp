@@ -8,7 +8,7 @@
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div>
-            <h4 class="mb-0">Thêm nguyên liêu</h4>
+            <h4 class="mb-0">Thêm sản phẩm</h4>
         </div>
         <div class="main-dashboard-header-right">
             <div class="d-flex my-xl-auto right-content align-items-center">
@@ -37,7 +37,7 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Thông tin nguyên liêu
+                    Thông tin sản phẩm
                 </div>
             </div>
             <div class="card-body">
