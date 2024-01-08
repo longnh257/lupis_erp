@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('completed_at')->nullable();
             $table->unsignedBigInteger('assigned_to')->nullable();
             $table->enum('status', ['in_progress', 'completed', 'cancel'])->default('in_progress');
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
         Schema::table('orders', function (Blueprint $table) {

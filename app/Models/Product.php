@@ -24,4 +24,5 @@ class Product extends Model
     {
         return "public/uploads/{$this->thumbnail}";
     }
+
 }

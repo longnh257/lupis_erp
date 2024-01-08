@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Enums\OrderStatus;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class OrderPageController extends Controller
@@ -22,38 +25,69 @@ class OrderPageController extends Controller
 
     public function create()
     {
-
-        $driver = User::where('role_id', 3)->get();
+        $user = User::whereIn('role_id', [UserRole::part_time_driver, UserRole::full_time_driver])->get();
         $product = Product::where('quantity', '>', 0)->get();
-        return view('pages.order.create', compact('driver', 'product'));
+        return view('pages.order.create', compact('user', 'product'));
     }
 
 
     public function store(Request $request)
     {
-        return $request->input();
+        // Start a database transaction
+        DB::beginTransaction();
         $request->validate(
             [
-                'name' => 'required|max:191|unique:orders,name',
-                'quantity' => 'numeric',
-                'file' => 'mimes:jpg,png,jpeg|max:4096',
+                'assigned_to' => 'required',
+
             ],
             trans('orderValidation.messages'),
             trans('orderValidation.attributes'),
         );
 
+        $collection = collect($request->attr);
 
-        $file = $request->file('file');
-        $yearMonth = date('Y') . '/' . date('m') . '/';
-        $fileName = $yearMonth . uniqid() . '.' . $file->getClientOriginalName();
-        Storage::disk('local')->put('public/uploads/' . $fileName, file_get_contents($file));
+        // Sử dụng filter để loại bỏ các sản phẩm có quantity = 0 hoặc không có quantity
+        $filteredCollection = $collection->filter(function ($item) {
+            return isset($item['quantity']) && (int)$item['quantity'] !== 0;
+        });
 
-        $request['thumbnail'] = $fileName;
+        $result = $filteredCollection->groupBy('product_id')->mapWithKeys(function ($group, $productId) {
+            return [$productId => $group->sum('quantity')];
+        });
 
-        Order::create($request->input());
 
+        $order =  Order::create([
+            'user_id' => Auth::id(), //người tạo
+            'assigned_to' => $request->assigned_to, //người nhận order
+            'status' => OrderStatus::INPROGRESS,
+            'order_date' => now(),
+        ]);
+
+        $resultArray = $result->all();
+        if (empty($resultArray)) {
+            DB::rollBack();
+            return redirect()->back()->with('error', "Vui lòng nhập sản phẩm cho đơn hàng.");
+        } else {
+            foreach ($resultArray as $product_id => $quantity) {
+                $product = Product::find($product_id);
+                if ($product->quantity >=  $quantity) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $product_id,
+                        'quantity' => $quantity,
+                    ]);
+
+                    $product->quantity = $product->quantity - $quantity;
+                    $product->save();
+                } else {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', "Số lượng nhập vào nhiều hơn số lượng tồn kho!");
+                }
+            }
+        }
+        DB::commit();
         return redirect()->route('view.order.index')
-            ->with('success', 'Thêm nguyên liệu thành công!');
+            ->with('success', 'Tạo đơn hàng thành công!');
     }
 
     public function edit(Order $model)

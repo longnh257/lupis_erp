@@ -60,31 +60,42 @@
                                         </button>
                                     </div>
                                 </th>
+
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Hình Ảnh</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
-                                    </div>
-                                </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Tên</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
-                                    </div>
-                                </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Số Lượng</div>
+                                        <div class="gridjs-th-content">Nhân viên</div>
                                         <button class="btn btn-outline-success btn-wave waves-effect waves-light">
                                             <i class="fe fe-arrow-up"></i>
                                         </button>
                                     </div>
                                 </th>
 
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div class="flex-between-center">
+                                        <div class="gridjs-th-content">Status</div>
+                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
+                                            <i class="fe fe-arrow-up"></i>
+                                        </button>
+                                    </div>
+                                </th>
+
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div class="flex-between-center">
+                                        <div class="gridjs-th-content">Ngày tạo đơn</div>
+                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
+                                            <i class="fe fe-arrow-up"></i>
+                                        </button>
+                                    </div>
+                                </th>
+
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div class="flex-between-center">
+                                        <div class="gridjs-th-content">Note</div>
+                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
+                                            <i class="fe fe-arrow-up"></i>
+                                        </button>
+                                    </div>
+                                </th>
 
                                 <th></th>
                             </tr>
@@ -92,9 +103,11 @@
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium">((item.id))</td>
-                                <td><img :src="item.thumbnail_url" width="60" height="60"></img></td>
-                                <td>((item.name))</td>
-                                <td>((item.quantity))</td>
+                                <td>((item.assigned_to?.name))</td>
+                                <td>((item.status))</td>
+                              
+                                <td>((item.order_date))</td>
+                                <td>((item.note))</td>
                                 <td>
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>

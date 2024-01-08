@@ -27,13 +27,18 @@
 
     @if ($errors->any())
     @foreach ($errors->all() as $error)
-    <div class="alert alert-danger mx-4" role="alert">
+    <div class="alert alert-danger mx-2" role="alert">
         {{ $error }}
     </div>
     @endforeach
     @endif
+    @if (session('error'))
+    <div class="alert alert-danger mx-2" role="alert">
+        {{ session('error') }}
+    </div>
+    @endif
 
-    <div class="row">
+    <div class="row  mx-2">
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
@@ -42,22 +47,19 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label required">Tên</label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Tên" aria-label="Họ tên">
+
+                    <div class="col-md-6 mb-3 ">
+                        <label class="form-label required">Nhân viên nhận đơn</label>
+                        <select type="text" class="form-control" name="assigned_to">
+                            @foreach($user as $item)
+                            <option value="{{$item->id}}" {{old('id')==$item->id ? "selected" : ""}}>{{$item->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="col-md-6 mb-3 ">
-                        <label class="form-label ">Số Lượng</label>
-                        <input type="number" class="form-control" value="{{ old('quantity') }}" name="quantity" placeholder="Số Lượng" aria-label="quantity">
-                    </div>
-                    <div class="col-md-6 mb-3 ">
-                        <label class="form-label ">Hình ảnh</label>
-                        <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
-                    </div>
-                    <div class="col-md-6 mb-3 ">
-                        <label class="form-label ">Mô tả</label>
-                        <textarea type="number" class="form-control" name="description" placeholder="Mô tả" aria-label="description">{{ old('description') }}</textarea>
+                        <label class="form-label ">Ghi chú</label>
+                        <textarea type="number" class="form-control" name="note" placeholder="Ghi chú" aria-label="note">{{ old('note') }}</textarea>
                     </div>
 
                     <span class="mb-0">Thêm sản phẩm cho đơn hàng</span>
@@ -115,7 +117,7 @@
 
                         </tbody>
                     </table>
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <button type="submit" class="btn btn-primary">Thêm</button>
                     </div>
                 </div>

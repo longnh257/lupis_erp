@@ -43,14 +43,15 @@ class User extends Authenticatable
         'role_name'
     ];
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
 
     public function getRoleNameAttribute()
     {
         return $this->role->nice_name;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 
     public function logs(): HasMany
