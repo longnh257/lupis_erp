@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Product')
+@section('title', 'Order')
 
 @section('content')
 <form action="{{route('view.order.store')}}" method="post" enctype="multipart/form-data" class="container-fluid">
@@ -8,7 +8,7 @@
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div>
-            <h4 class="mb-0">Thêm sản phẩm</h4>
+            <h4 class="mb-0">Thêm đơn hàng</h4>
         </div>
         <div class="main-dashboard-header-right">
             <div class="d-flex my-xl-auto right-content align-items-center">
@@ -42,7 +42,7 @@
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">
-                    Thông tin sản phẩm
+                    Thông tin đơn hàng
                 </div>
             </div>
             <div class="card-body">
@@ -62,7 +62,7 @@
                         <textarea type="number" class="form-control" name="note" placeholder="Ghi chú" aria-label="note">{{ old('note') }}</textarea>
                     </div>
 
-                    <span class="mb-0">Thêm sản phẩm cho đơn hàng</span>
+                    <span class="mb-0">Thêm đơn hàng cho đơn hàng</span>
                     <table class="table table-striped table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table" id='list-data' data-product="{{$product}}">
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">

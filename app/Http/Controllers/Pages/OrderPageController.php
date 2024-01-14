@@ -131,7 +131,8 @@ class OrderPageController extends Controller
 
     public function destroy(Order $model)
     {
-        $model->delete();
+        $model->status = OrderStatus::CANCEL;
+        $model->save();
 
         return redirect()->route('view.order.index')
             ->with('success', 'Xóa Thành Công!');

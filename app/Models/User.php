@@ -58,6 +58,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserLog::class);
     }
+    
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
 
     public function logActivity($action, $details = null, $user_id = null, $performed_by = null)
     {
