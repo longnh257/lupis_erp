@@ -24,7 +24,7 @@
     @csrf
     @method('PUT')
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-8">
             <div class="card custom-card">
                 <div class="card-header justify-content-between">
                     <div class="card-title">
@@ -34,6 +34,17 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+
+
+                        <div class="col-md-12 mb-3 ">
+                            <label class="form-label ">Hình ảnh</label>
+                            <br>
+                            @if($model->thumbnail)
+                            <img src="{{$model->thumbnail_url}}"  alt="" style="object-fit:contain; max-height:300px">
+                            @endif
+                            <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
+                        </div>
+
                         <div class="col-md-6 mb-3">
                             <label class="form-label required">Tên</label>
                             <input type="text" class="form-control" name="name" value="{{$model->name }}" placeholder="Tên" aria-label="Họ tên">
@@ -43,17 +54,19 @@
                             <label class="form-label ">Số Lượng</label>
                             <input type="number" class="form-control" value="{{$model->quantity }}" name="quantity" placeholder="Số Lượng" aria-label="quantity">
                         </div>
+
                         <div class="col-md-6 mb-3 ">
-                            <label class="form-label ">Hình ảnh</label>
-                            @if($model->thumbnail)
-                            <img src="{{$model->thumbnail_url}}" width="70" height="70" alt="">
-                            @endif
-                            <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
+                            <label class="form-label ">Đơn Giá</label>
+                            <input type="number" class="form-control" value="{{$model->price }}" name="price" placeholder="Đơn Giá" aria-label="price">
                         </div>
-                        <div class="col-md-6 mb-3 ">
+
+
+                        <div class="col-md-12 mb-3 ">
                             <label class="form-label ">Mô tả</label>
                             <textarea type="number" class="form-control" name="description" placeholder="Mô tả" aria-label="description">{{$model->description }}</textarea>
                         </div>
+
+
 
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary">Chỉnh sửa</button>

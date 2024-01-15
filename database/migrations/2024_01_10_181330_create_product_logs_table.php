@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_logs', function (Blueprint $table) {
+        Schema::create('product_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('performed_by')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->string('action'); // Đăng nhập hoặc Cập nhật hồ sơ
             $table->text('details')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('user_logs', function (Blueprint $table) {
+        Schema::table('product_logs', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('performed_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,8 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
+    protected $appends = ['status_name'];
+
 
     public function user()
     {
@@ -21,6 +24,11 @@ class Order extends Model
     public function assigned_to()
     {
         return $this->belongsTo(User::class, 'assigned_to', 'id');
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return OrderStatus::getValue($this->status) ;
     }
 
     public function products()

@@ -52,14 +52,18 @@
                         <input type="number" class="form-control" value="{{ old('quantity') }}" name="quantity" placeholder="Số Lượng" aria-label="quantity">
                     </div>
                     <div class="col-md-6 mb-3 ">
-                        <label class="form-label ">Hình ảnh</label>
-                        <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
+                        <label class="form-label ">Đơn Giá</label>
+                        <input type="number" class="form-control" value="{{ old('price') }}" name="price" placeholder="Đơn Giá" aria-label="price">
                     </div>
+                   
                     <div class="col-md-6 mb-3 ">
                         <label class="form-label ">Mô tả</label>
                         <textarea type="number" class="form-control" name="description" placeholder="Mô tả" aria-label="description">{{ old('description') }}</textarea>
                     </div>
-
+                    <div class="col-md-12 mb-3 ">
+                        <label class="form-label ">Hình ảnh</label>
+                        <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
+                    </div>
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">Thêm</button>
                     </div>

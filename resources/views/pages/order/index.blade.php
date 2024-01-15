@@ -104,7 +104,7 @@
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium">((item.id))</td>
                                 <td>((item.assigned_to?.name))</td>
-                                <td>((item.status))</td>
+                                <td>((item.status_name))</td>
                               
                                 <td>((item.order_date))</td>
                                 <td>((item.note))</td>

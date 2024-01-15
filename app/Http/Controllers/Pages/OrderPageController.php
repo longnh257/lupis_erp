@@ -59,7 +59,7 @@ class OrderPageController extends Controller
         $order =  Order::create([
             'user_id' => Auth::id(), //người tạo
             'assigned_to' => $request->assigned_to, //người nhận order
-            'status' => OrderStatus::INPROGRESS,
+            'status' => OrderStatus::getKey('IN_PROGRESS'),
             'order_date' => now(),
         ]);
 

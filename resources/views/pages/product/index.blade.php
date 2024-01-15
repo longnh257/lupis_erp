@@ -60,7 +60,7 @@
                                         </button>
                                     </div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
+                                <th class="gridjs-th gridjs-th-sort "  style="width:80px">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Hình Ảnh</div>
                                         <button class="btn btn-outline-success btn-wave waves-effect waves-light">
@@ -91,11 +91,11 @@
                         </thead>
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
-                                <td class="fw-medium">((item.id))</td>
-                                <td><img :src="item.thumbnail_url" width="60" height="60"></img></td>
+                                <td class="fw-medium" style="width:60px">((item.id))</td>
+                                <td style="width:120px"><img :src="item.thumbnail_url" alt="" style="object-fit:cover; width:80px; height:80px;"></img></td>
                                 <td>((item.name))</td>
                                 <td>((item.quantity))</td>
-                                <td>
+                                <td  style="width:120px">
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('product')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
                                         <form :action="`{{asset('product')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
