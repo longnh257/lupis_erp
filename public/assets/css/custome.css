@@ -9,24 +9,48 @@
     color: red;
 }
 .table-responsive::-webkit-scrollbar {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 .table-responsive::-webkit-scrollbar:vertical {
-  width: 12px;
+    width: 12px;
 }
 
 .table-responsive::-webkit-scrollbar:horizontal {
-  height: 12px;
+    height: 12px;
 }
 
 .table-responsive::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, .5);
-  border-radius: 10px;
-  border: 2px solid #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
 }
 
 .table-responsive::-webkit-scrollbar-track {
-  border-radius: 10px;  
-  background-color: #ffffff; 
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.country-table th:first-of-type,
+.country-table th:last-of-type {
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+}
+
+.country-table th:last-of-type {
+    text-align: right;
+    justify-content: end;
+}
+
+.country-table td:first-of-type,
+.country-table td:last-of-type {
+    max-width: 300px;
+    text-align: center;
+    justify-content: center;
+}
+
+.country-table td:last-of-type .hstack {
+    justify-content: end;
+    gap: 10px;
 }
