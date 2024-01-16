@@ -106,7 +106,7 @@
                                     <!--   <input type="text" :name="'attr[' + key + '][attribute_name]'" v-model="item.attribute_name" class="form-control" value=""> -->
                                 </td>
                                 <td class="fw-medium">
-                                    <input type="text" :name="'attr[' + key + '][quantity]'" v-model="item.quantity" class="form-control" value="">
+                                    <input type="number" step="0.1" :name="'attr[' + key + '][quantity]'" v-model="item.quantity" class="form-control" value="">
                                 </td>
                                 <td>
                                     <div class="hstack gap-2 flex-wrap justify-content-center" v-if="key != 0">

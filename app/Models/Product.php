@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
@@ -29,17 +30,7 @@ class Product extends Model
 
     public function logs(): HasMany
     {
-        return $this->hasMany(UserLog::class);
-    }
-
-    public function logActivity($action, $details = null, $user_id = null, $performed_by = null)
-    {
-        $this->logs()->create([
-            'action' => $action,
-            'details' => $details,
-            'user_id' => $user_id,
-            'performed_by' => $performed_by,
-        ]);
+        return $this->hasMany(ProductLog::class);
     }
 
 }

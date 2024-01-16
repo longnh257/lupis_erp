@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Product;
+use App\Models\ProductLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,15 +37,26 @@ class ProductPageController extends Controller
             trans('productValidation.attributes'),
         );
 
+        $fileName = "";
 
-        $file = $request->file('file');
-        $yearMonth = date('Y') . '/' . date('m') . '/';
-        $fileName = $yearMonth . uniqid() . '.' . $file->getClientOriginalName();
-        Storage::disk('local')->put('public/uploads/' . $fileName, file_get_contents($file));
+        if ($request->file('file')) {
+            $file = $request->file('file');
+            $yearMonth = date('Y') . '/' . date('m') . '/';
+            $fileName = $yearMonth . uniqid() . '.' . $file->getClientOriginalName();
+            Storage::disk('local')->put('public/uploads/' . $fileName, file_get_contents($file));
+            $request['thumbnail'] = $fileName;
+        }
 
-        $request['thumbnail'] = $fileName;
 
-        Product::create($request->input());
+        $product =  Product::create($request->input());
+
+        ProductLog::create([
+            'user_id' => Auth::id(),
+            'action' => "import",
+            'details' => "Tạo Sản Phẩm",
+            'quantity' => $product->quantity,
+            'product_id' => $product->id,
+        ]);
 
         return redirect()->route('view.product.index')
             ->with('success', 'Thêm nguyên liệu thành công!');

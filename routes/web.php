@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ProductLogController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Pages\AuthController;
 use App\Http\Controllers\Pages\EventPageController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\OrderPageController;
+use App\Http\Controllers\Pages\ProductLogPageController;
 use App\Http\Controllers\Pages\ProductPageController;
 use App\Http\Controllers\Pages\UserPageController;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/update-profile', [UserPageController::class, 'update_profile'])->name('view.user.update-profile');
     });
 
-    //User
+    //Product
     Route::group(['prefix' => 'product'], function () {
         Route::get('/', [ProductPageController::class, 'index'])->name('view.product.index');
         Route::get('/create', [ProductPageController::class, 'create'])->name('view.product.create');
@@ -56,7 +58,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{model}', [ProductPageController::class, 'destroy'])->name('view.product.destroy');
     });
 
-    //User
+    //Product Log
+    Route::group(['prefix' => 'product-log'], function () {
+        Route::get('/', [ProductLogPageController::class, 'index'])->name('view.product-log.index');
+        
+    });
+
+    //Order
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', [OrderPageController::class, 'index'])->name('view.order.index');
         Route::get('/create', [OrderPageController::class, 'create'])->name('view.order.create');
@@ -76,13 +84,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'api'], function () {
-
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', [UserController::class, 'index'])->name('api.user.list');
         });
 
         Route::group(['prefix' => 'product'], function () {
             Route::get('/', [ProductController::class, 'index'])->name('api.product.list');
+        });
+
+        Route::group(['prefix' => 'product-log'], function () {
+            Route::get('/', [ProductLogController::class, 'index'])->name('api.product-log.list');
         });
 
         Route::group(['prefix' => 'order'], function () {

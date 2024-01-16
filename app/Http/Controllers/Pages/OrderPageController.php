@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,7 +60,7 @@ class OrderPageController extends Controller
         $order =  Order::create([
             'user_id' => Auth::id(), //người tạo
             'assigned_to' => $request->assigned_to, //người nhận order
-            'status' => OrderStatus::getKey('IN_PROGRESS'),
+            'status' => OrderStatus::getKey('IN PROGRESS'),
             'order_date' => now(),
         ]);
 
@@ -71,7 +72,7 @@ class OrderPageController extends Controller
             foreach ($resultArray as $product_id => $quantity) {
                 $product = Product::find($product_id);
                 if ($product->quantity >=  $quantity) {
-                    OrderItem::create([
+                    $item = OrderItem::create([
                         'order_id' => $order->id,
                         'product_id' => $product_id,
                         'quantity' => $quantity,
@@ -79,6 +80,16 @@ class OrderPageController extends Controller
 
                     $product->quantity = $product->quantity - $quantity;
                     $product->save();
+
+                    
+                    ProductLog::create([
+                        'user_id' => Auth::id(),
+                        'order_id' => $order->id,
+                        'action' => "export",
+                        'details' => "Xuất Kho",
+                        'quantity' => $quantity,
+                        'product_id' => $product_id,
+                    ]);
                 } else {
                     DB::rollBack();
                     return redirect()->back()->with('error', "Số lượng nhập vào nhiều hơn số lượng tồn kho!");
