@@ -6,8 +6,8 @@ use BenSampo\Enum\Enum;
 
 final class OrderStatus extends Enum
 {
-    const IN_PROGRESS = 'IN PROGRESS';
-    const COMPLETED = 'PENDING';
-    const PENDING = 'COMPLETED';
-    const CANCEL = 'CANCEL';
+    const IN_PROGRESS = 'Đang Xử Lý';
+    const COMPLETED = 'Hoàn Thành';
+    const PENDING = 'Đợi Duyệt';
+    const CANCEL = 'Đã Hủy';
 }

@@ -96,18 +96,20 @@
                                         </button>
                                     </div>
                                 </th>
-
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium">((item.id))</td>
                                 <td>((item.assigned_to?.name))</td>
-                                <td>((item.status_name))</td>
-                              
+                                <td class="">
+                                    ((item.status_name))
+                                </td>
+
                                 <td>((item.order_date))</td>
                                 <td>((item.note))</td>
+                                <td> <a href="#" class="btn btn-success btn--small d-block mt-2" v-if="item.is_editable"> Chốt Đơn</a>
+                                </td>
                                 <td>
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
