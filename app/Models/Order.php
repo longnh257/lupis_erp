@@ -32,7 +32,7 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function assigned_to()
+    public function assigned_user()
     {
         return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
@@ -41,9 +41,9 @@ class Order extends Model
     {
         return OrderStatus::getValue($this->status) ;
     }
-
-    public function products()
+    
+    public function order_items()
     {
-        return $this->hasManyThrough(Product::class, OrderItem::class, 'order_id', 'id');
+        return $this->hasMany(OrderItem::class);
     }
 }

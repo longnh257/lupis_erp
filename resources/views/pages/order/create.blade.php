@@ -74,18 +74,14 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Sản Phẩm</div>
-                                        <button class="btn btn-outline-light btn-wave waves-effect waves-light">
-                                            <i class="fe fe-maximize-2"></i>
-                                        </button>
+
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Số Lượng</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-down"></i>
-                                        </button>
+
                                     </div>
                                 </th>
 

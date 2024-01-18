@@ -19,7 +19,7 @@ class OrderController extends Controller
         if ($s = $request->has("s")) {
             $query->where("name", "LIKE", "%" . $s . "%");
         }
-        $query->with(["user", "products",  "assigned_to"]);
+        $query->with(["user", "order_items",  "assigned_user"]);
         $datas = $query->paginate($this->numPerPage);
 
         return $this->hasSuccess('Lấy danh sách đơn hàng thành công!', $datas);

@@ -87,7 +87,6 @@
                                         </button>
                                     </div>
                                 </th>
-
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Note</div>
@@ -96,19 +95,22 @@
                                         </button>
                                     </div>
                                 </th>
+                                <th class="gridjs-th gridjs-th-sort " style="max-width:200px"></th>
+                                <th class="gridjs-th gridjs-th-sort "></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium">((item.id))</td>
-                                <td>((item.assigned_to?.name))</td>
+                                <td>((item.assigned_user?.name))</td>
                                 <td class="">
                                     ((item.status_name))
                                 </td>
 
                                 <td>((item.order_date))</td>
                                 <td>((item.note))</td>
-                                <td> <a href="#" class="btn btn-success btn--small d-block mt-2" v-if="item.is_editable"> Chốt Đơn</a>
+                                <td style="max-width:200px">
+                                    <a :href="`{{asset('order')}}/edit/`+item.id" class="btn btn-success btn--small d-block mt-2" v-if="item.is_editable"> Chốt Đơn</a>
                                 </td>
                                 <td>
                                     <div class="hstack gap-2 ">

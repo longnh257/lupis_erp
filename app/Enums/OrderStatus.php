@@ -10,4 +10,9 @@ final class OrderStatus extends Enum
     const COMPLETED = 'Hoàn Thành';
     const PENDING = 'Đợi Duyệt';
     const CANCEL = 'Đã Hủy';
+
+    const in_progress = 'Đang Xử Lý';
+    const completed = 'Hoàn Thành';
+    const pending = 'Đợi Duyệt';
+    const cancel = 'Đã Hủy';
 }

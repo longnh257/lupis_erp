@@ -81,7 +81,7 @@ class OrderPageController extends Controller
                     $product->quantity = $product->quantity - $quantity;
                     $product->save();
 
-                    
+
                     ProductLog::create([
                         'user_id' => Auth::id(),
                         'order_id' => $order->id,
@@ -103,8 +103,11 @@ class OrderPageController extends Controller
 
     public function edit(Order $model)
     {
-        $roles = Role::orderBy('id', 'DESC')->get();
-        return view('pages.order.edit', compact('roles', 'model'));
+        if ($model->is_editable) {
+            return view('pages.order.edit', compact('model'));
+        } else {
+            abort(403);
+        }
     }
 
     public function update(Order $model, Request $request)
