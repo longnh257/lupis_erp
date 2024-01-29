@@ -12,9 +12,9 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        // Kiểm tra nếu người dùng đã đăng nhập
+        // Kiểm tra nếu Nhân Viên đã đăng nhập
         if (Auth::check()) {
-            // Kiểm tra xem người dùng có quyền truy cập không
+            // Kiểm tra xem Nhân Viên có quyền truy cập không
             $user = User::find(Auth::id());
             if (in_array($user->role->name, $roles)) {
                 return $next($request);

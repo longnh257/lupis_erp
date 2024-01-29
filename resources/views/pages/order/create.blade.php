@@ -63,7 +63,7 @@
                     </div>
 
                     <span class="mb-0">Thêm đơn hàng cho đơn hàng</span>
-                    <table class="table table-striped table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table" id='list-data' data-product="{{$product}}">
+                    <table class="table  table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table" id='list-data' data-product="{{$product}}">
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">
                                 <th class="gridjs-th gridjs-th-sort " style="width: 70px;">

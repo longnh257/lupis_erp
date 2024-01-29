@@ -14,14 +14,15 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = ['status_name','is_editable'];
+    protected $appends = ['status_name', 'is_editable'];
 
-    public function getIsEditableAttribute() {
+    public function getIsEditableAttribute()
+    {
         $user = User::find(Auth::id());
-        if('IN_PROGRESS' == $this->status && in_array($user->role->name, ['superadmin','manager','full_time_driver','part_time_driver'])){
+        if (('IN_PROGRESS' == $this->status || 'in_progress' == $this->status) && in_array($user->role->name, ['superadmin', 'manager', 'full_time_driver', 'part_time_driver'])) {
             return true;
         }
-        if('PENDING' == $this->status && in_array($user->role->name, ['superadmin','manager'])){
+        if (('PENDING' == $this->status || 'pending' == $this->status) && in_array($user->role->name, ['superadmin', 'manager'])) {
             return true;
         }
         return false;
@@ -39,9 +40,9 @@ class Order extends Model
 
     public function getStatusNameAttribute()
     {
-        return OrderStatus::getValue($this->status) ;
+        return OrderStatus::getValue($this->status);
     }
-    
+
     public function order_items()
     {
         return $this->hasMany(OrderItem::class);

@@ -46,7 +46,7 @@
                         </div>
 
                         <span class="mb-0">Chốt đơn</span>
-                        <table class="table table-striped table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table">
+                        <table class="table table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table">
                             <thead class="gridjs-thead">
                                 <tr class="gridjs-tr">
 
@@ -68,10 +68,6 @@
                                         </div>
                                     </th>
 
-                                    <th class="text-end" style="width: 50px;">
-                                        <a @click="addAttr()" class="btn btn-info btn-icon btn-b">
-                                            <i class="fe fe-plus"></i></a>
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,23 +77,19 @@
                                         {{$item->product->name}}
                                     </td>
                                     <td>
-                                    {{$item->quantity}}
+                                        {{$item->quantity}}
                                     </td>
                                     <td>
-                                        <input type="number" step="0.1" name="attr[{{$item->id}}][quantity]" class="form-control" value="{{$item->quantity}}">
+                                        <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->quantity}}" class="form-control" value="{{$item->quantity}}">
                                     </td>
-                                    <td>
-                                        <div class="hstack gap-2 flex-wrap justify-content-center" v-if="key != 0">
-                                            <a href="##" @click="deleteAttr(item)" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
-                                        </div>
-                                    </td>
+
                                 </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
                         <div class="col-md-12 mt-3">
-                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <button type="submit" class="btn btn-primary">Chốt</button>
                         </div>
                     </div>
                 </div>

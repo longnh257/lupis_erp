@@ -114,32 +114,41 @@ class OrderPageController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required|max:191|unique:orders,name,' . $model->id . ',id',
-                'quantity' => 'numeric',
-                'file' => 'mimes:jpg,png,jpeg|max:4096',
+                'sell_quantity.*' => 'numeric',
             ],
             trans('orderValidation.messages'),
             trans('orderValidation.attributes'),
         );
 
-        $cred = [
-            "name" => $request->name,
-            "quantity" => $request->quantity,
-            "description" => $request->description,
-        ];
 
-        if ($request->file) {
-            $file = $request->file('file');
-            $yearMonth = date('Y') . '/' . date('m') . '/';
-            $fileName = $yearMonth . uniqid() . '.' . $file->getClientOriginalName();
-            Storage::disk('local')->put('public/uploads/' . $fileName, file_get_contents($file));
-            $cred['thumbnail'] = $fileName;
+        foreach ($request->sell_quantity as $key => $item) {
+            $order_item = OrderItem::find($key);
+            $order_item->update([
+                'sell_price' =>  $order_item->product->price,
+                'sell_quantity' => $item,
+            ]);
+            if ($item < $order_item->quantity) {
+                $order_item->product->update(['quantity' => $order_item->product->quantity + $order_item->quantity - $item]);
+
+                ProductLog::create([
+                    'user_id' => Auth::id(),
+                    'order_id' => $model->id,
+                    'action' => "import",
+                    'details' => "Trả hàng chốt đơn",
+                    'quantity' => $order_item->quantity - $item,
+                    'product_id' =>   $order_item->product->id,
+                ]);
+            }
         }
 
-        $model->update($cred);
+
+        $model->update([
+            'note' => $request->note,
+            'status' => 'completed',
+        ]);
 
         return redirect()->route('view.order.index')
-            ->with('success', 'Cập nhật thành công!');
+            ->with('success', 'Chốt đơn thành công!');
     }
 
 

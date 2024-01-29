@@ -50,7 +50,7 @@ class UserPageController extends Controller
         ]);
 
         return redirect()->route('view.user.index')
-            ->with('success', 'Thêm người dùng thành công!');
+            ->with('success', 'Thêm Nhân Viên thành công!');
     }
 
     public function edit(User $model)

@@ -82,7 +82,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::updating(function ($model) {
-            $model->logActivity('account_update', 'Cập nhật thông tin người dùng', $model->id, Auth::id());
+            $model->logActivity('account_update', 'Cập nhật thông tin Nhân Viên', $model->id, Auth::id());
         });
     }
 }

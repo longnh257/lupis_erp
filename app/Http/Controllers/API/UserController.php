@@ -25,6 +25,6 @@ class UserController extends Controller
         }
         $datas = $query->where('id', '!=', 1)->paginate($this->numPerPage);
 
-        return $this->hasSuccess('Lấy danh sách người dùng thành công!', $datas);
+        return $this->hasSuccess('Lấy danh sách Nhân Viên thành công!', $datas);
     }
 }

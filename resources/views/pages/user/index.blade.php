@@ -7,11 +7,11 @@
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div class="my-auto">
-            <h4 class="mb-0">Người dùng</h4>
+            <h4 class="mb-0">Nhân Viên</h4>
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Trang Chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Người dùng</li>
+                    <li class="breadcrumb-item active" aria-current="page">Nhân Viên</li>
                 </ol>
             </nav>
         </div>

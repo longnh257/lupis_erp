@@ -14,6 +14,7 @@ return [
         'min' => ':attribute không được ít hơn :min ký tự',
         'confirmed' => ':attribute không khớp',
         'numeric' => ':attribute phải là số',
+        'sell_quantity.*.numeric' => 'Số lượng đã bán phải là số',
         //end user validate
     ],
 ];
