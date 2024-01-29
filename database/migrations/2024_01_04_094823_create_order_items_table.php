@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->decimal('quantity', 10, 2);
+            $table->decimal('sell_quantity', 10, 2);
+            $table->decimal('sell_price', 10, 2);
             $table->timestamps();
         });
         Schema::table('order_items', function (Blueprint $table) {

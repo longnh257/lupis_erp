@@ -54,3 +54,10 @@
     justify-content: end;
     gap: 10px;
 }
+
+.prod-log-import {
+    color: rgb(68, 233, 68);
+}
+.prod-log-export {
+    color: rgb(242, 60, 60);
+}

@@ -30,7 +30,6 @@ class UserPageController extends Controller
             [
                 'name' => 'required|max:191',
                 'email' => 'email|required|max:191|unique:users,email',
-                'phone' => 'regex:/^\d{10}$/|max:12',
                 'password' => 'required|confirmed|min:8|max:191',
                 'role_id' => 'required',
                 'address' => 'max:191',

@@ -3,7 +3,7 @@
 return [
     'attributes' => [
         //user validate
-        'name' => 'Tên vật liệu',
+        'name' => 'Tên sản phẩm',
         'quantity' => 'Số lượng',
         //end user validate
     ],

@@ -7,8 +7,8 @@
 <!-- Page Header -->
 <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
     <div>
-        <h4 class="mb-0">{{ trans('order.order_edit') }}</h4>
-        <p class="mb-0 text-muted">{{ trans('order.order_edit_desc') }}</p>
+        <h4 class="mb-0">Chỉnh sửa đơn hàng</h4>
+        <p class="mb-0 text-muted">Chỉnh sửa đơn hàng, chốt đơn</p>
     </div>
 </div>
 <!-- End Page Header -->
@@ -64,7 +64,7 @@
 
                                     <th class="gridjs-th gridjs-th-sort">
                                         <div class="flex-between-center">
-                                            <div class="gridjs-th-content">Số Lượng</div>
+                                            <div class="gridjs-th-content">Đã Bán</div>
                                         </div>
                                     </th>
 
@@ -79,6 +79,9 @@
                                 <tr>
                                     <td>
                                         {{$item->product->name}}
+                                    </td>
+                                    <td>
+                                    {{$item->quantity}}
                                     </td>
                                     <td>
                                         <input type="number" step="0.1" name="attr[{{$item->id}}][quantity]" class="form-control" value="{{$item->quantity}}">

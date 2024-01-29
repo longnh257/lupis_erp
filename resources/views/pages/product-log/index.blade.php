@@ -54,8 +54,8 @@
                                         </button>
                                     </div>
                                 </th>
-                             
-                             
+
+
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Người Tạo</div>
@@ -73,7 +73,7 @@
                                         </button>
                                     </div>
                                 </th>
-                             
+
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Sản Phẩm</div>
@@ -82,7 +82,7 @@
                                         </button>
                                     </div>
                                 </th>
-                             
+
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Số Lượng</div>
@@ -104,11 +104,11 @@
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium" style="width:60px">((item.id))</td>
-                                <td>((item.user?.name))</td>
-                                <td>((item.details))</td>
-                                <td>((item.product?.name))</td>
-                                <td>((item.quantity))</td>
-                                <td>((item.created_at_format))</td>
+                                <td> <span> ((item.user?.name)) </span></td>
+                                <td> <span> ((item.details)) </span></td>
+                                <td> <span> ((item.product?.name)) </span></td>
+                                <td> <span :class="'prod-log-'+((item.action))"> ((item.action=='import' ? '+ ':'- ')) ((item.quantity)) </span></td>
+                                <td> <span> ((item.created_at_format)) </span></td>
                             </tr>
 
                         </tbody>

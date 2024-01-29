@@ -49,7 +49,6 @@ class ProductPageController extends Controller
 
 
         $product =  Product::create($request->input());
-
         ProductLog::create([
             'user_id' => Auth::id(),
             'action' => "import",
@@ -59,7 +58,7 @@ class ProductPageController extends Controller
         ]);
 
         return redirect()->route('view.product.index')
-            ->with('success', 'Thêm nguyên liệu thành công!');
+            ->with('success', 'Thêm sản phẩm thành công!');
     }
 
     public function edit(Product $model)

@@ -23,7 +23,7 @@ class UserController extends Controller
         if ($request->role) {
             $query->where('role', $request->role);
         }
-        $datas = $query->paginate($this->numPerPage);
+        $datas = $query->where('id', '!=', 1)->paginate($this->numPerPage);
 
         return $this->hasSuccess('Lấy danh sách người dùng thành công!', $datas);
     }
