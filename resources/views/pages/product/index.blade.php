@@ -55,33 +55,25 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">ID</div>
-                                        <button class="btn btn-outline-light btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-down"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort "  style="width:80px">
+                                <th class="gridjs-th gridjs-th-sort " style="width:80px">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Hình Ảnh</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Tên</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Số Lượng</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
@@ -95,7 +87,7 @@
                                 <td style="width:120px"><img :src="item.thumbnail_url" alt="" style="object-fit:cover; width:80px; height:80px;"></img></td>
                                 <td>((item.name))</td>
                                 <td>((item.quantity))</td>
-                                <td  style="width:120px">
+                                <td style="width:120px">
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('product')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
                                         <form :action="`{{asset('product')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">

@@ -55,44 +55,34 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">ID</div>
-                                        <button class="btn btn-outline-light btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-down"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Nhân viên</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Status</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Ngày tạo đơn</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Note</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort " style="max-width:200px"></th>
