@@ -16,7 +16,7 @@
 @if ($errors->any())
 @foreach ($errors->all() as $error)
 <div class="alert alert-danger mx-4" role="alert">
-    {{ $error }}
+   {!! $error !!}
 </div>
 @endforeach
 @endif

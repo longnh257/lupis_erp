@@ -29,7 +29,7 @@
         <div class="col-md-12 col-lg-12 col-xl-12 mb-2">
             @if (session('success'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {!! session('success')!!}
             </div>
             @endif
         </div>
