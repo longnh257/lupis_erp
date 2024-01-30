@@ -64,7 +64,7 @@
 
                                     <th class="gridjs-th gridjs-th-sort">
                                         <div class="flex-between-center">
-                                            <div class="gridjs-th-content">Đã Bán</div>
+                                            <div class="gridjs-th-content required">Đã Bán</div>
                                         </div>
                                     </th>
 
