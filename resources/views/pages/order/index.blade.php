@@ -39,17 +39,54 @@
                     <div class="card-title">
                         Danh Sách Đơn Hàng
                     </div>
-                    <a href="javascript:void(0);" class="btn btn-icon btn-sm btn-light bg-transparent rounded-pill" data-bs-toggle="dropdown"><i class="fe fe-more-horizontal"></i></a>
+
+                    <!--   <a href="javascript:void(0);" class="btn btn-icon btn-sm btn-light bg-transparent rounded-pill" data-bs-toggle="dropdown"><i class="fe fe-more-horizontal"></i></a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="javascript:void(0);">10</a>
                         <a class="dropdown-item" href="javascript:void(0);">20</a>
                         <a class="dropdown-item" href="javascript:void(0);">30</a>
                         <a class="dropdown-item" href="javascript:void(0);">Tất cả</a>
-                    </div>
+                    </div> -->
                 </div>
+                <form action="" @submit.prevent="filterList">
+                    <div class="d-flex flex-rows gap-3 border p-3 mb-3 pb-0 shadow-sm">
 
-                <div class="table-responsive country-table">
-                    <table class="table table-striped table-bordered mb-0 text-nowrap gridjs-table">
+                        <div class="form-group col w-auto" style="max-width:220px">
+                            <label for="staffs" class="mb-2 fw-bold">Nhân viên: </label>
+                            <input type="text" step="0.1" v-model="user_name" class="form-control ">
+                        </div>
+                        <div class="form-group col w-auto" style="max-width:220px">
+                            <label for="staffs" class="mb-2 fw-bold">Trạng thái đơn hàng: </label>
+                            <select class="form-control" name="" v-model="status" id="">
+                                <option value="">Chọn Trạng Thái</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="in_progress">Đang Xử Lý</option>
+                                <option value="pending">Đợi duyệt</option>
+                                <option value="cancel">Bị hủy</option>
+                            </select>
+                        </div>
+                        <div class="form-group col w-auto" style="max-width:220px">
+                            <label for="staffs" class="mb-2 fw-bold">Ngày tạo đơn: </label>
+                            <input type="date" v-model="created_at" class="form-control ">
+                        </div>
+
+                        <div class="form-group col w-auto align-self-end d-flex gap-3">
+                            <button class=" btn btn-primary " type="submit" @click="filterList">
+                                Tìm Kiếm
+                            </button>
+                            <div class="d-flex my-xl-auto right-content align-items-center">
+                                <div>
+                                    <a href="#" class="btn btn-info btn-icon btn-b" @click="resetFilter">
+                                        <i class="fa-solid fa-rotate-left"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="table-responsive country-table ">
+                    <table class="table table-striped table-bordered mb-0 text-nowrap gridjs-table ">
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">
                                 <th class="gridjs-th gridjs-th-sort ">
@@ -202,6 +239,9 @@
             sortBy: 'id',
             count: 0,
             page: 1,
+            user_name: '',
+            status: '',
+            created_at: '',
             list: [],
             conditionSearch: '',
             listPage: [],
@@ -243,6 +283,9 @@
                 conditionSearch += '&showcount=' + this.showCount;
                 conditionSearch += '&sortBy=' + this.sortBy;
                 conditionSearch += '&sortDirection=' + this.sortDirection;
+                conditionSearch += '&user_name=' + this.user_name;
+                conditionSearch += '&status=' + this.status;
+                conditionSearch += '&created_at=' + this.created_at;
                 this.conditionSearch = conditionSearch;
                 jQuery.ajax({
                     type: 'GET',
@@ -272,6 +315,15 @@
                         notifier.warning('Có lỗi xảy ra!');
                     }
                 });
+            },
+            filterList() {
+                this.onLoadPagination()
+            },
+            resetFilter() {
+                this.user_name = '';
+                this.status = '';
+                this.created_at = '';
+                this.onLoadPagination()
             },
             deleteItem(id) {
                 Swal.fire({
