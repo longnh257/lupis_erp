@@ -124,7 +124,7 @@ class OrderPageController extends Controller
         foreach ($request->sell_quantity as $key => $item) {
             $order_item = OrderItem::find($key);
             $order_item->update([
-                'sell_price' =>  $order_item->product->price,
+                'sell_price' => $order_item->sell_price ? $order_item->sell_price :  $order_item->product->price,
                 'sell_quantity' => $item,
             ]);
             if ($item < $order_item->quantity) {
@@ -151,10 +151,46 @@ class OrderPageController extends Controller
             ->with('success', 'Chốt đơn thành công!');
     }
 
+    public function staff_update(Order $model, Request $request)
+    {
+        if (!$model->staff_updated) {
+            $request->validate(
+                [
+                    'sell_quantity.*' => 'numeric',
+                ],
+                trans('orderValidation.messages'),
+                trans('orderValidation.attributes'),
+            );
+
+            foreach ($request->sell_quantity as $key => $item) {
+                $order_item = OrderItem::find($key);
+                $order_item->update([
+                    'sell_price' =>  $order_item->product->price,
+                    'sell_quantity' => $item,
+                ]);
+            }
+
+            $model->update([
+                'note' => $request->note,
+                'status' => 'pending',
+                'staff_updated' => true,
+            ]);
+        } else {
+            $model->update([
+                'note' => $request->note,
+            ]);
+        }
+
+        return redirect()->route('view.order.index')
+            ->with('success', 'Cập nhật thành công, vui lòng đợi quản lý xét duyệt!<br>
+            Lưu ý, Đơn hàng này đã được chôt, bạn không thể sửa số lượng đã bán, 
+            nếu có vấn đề vui lòng liên hệ Quản Lý');
+    }
+
 
     public function destroy(Order $model)
     {
-        $model->status = OrderStatus::CANCEL;
+        $model->status = 'cancel';
         $model->save();
 
         return redirect()->route('view.order.index')

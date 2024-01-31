@@ -23,7 +23,7 @@
         <div class="col-md-12 col-lg-12 col-xl-12 mb-2">
             @if (session('success'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {!! session('success')!!}
             </div>
             @endif
         </div>
@@ -49,9 +49,7 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">ID</div>
-                                        <button class="btn btn-outline-light btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-down"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
@@ -59,44 +57,34 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Người Tạo</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Chi Tiết</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Sản Phẩm</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Số Lượng</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Ngày Tạo</div>
-                                        <button class="btn btn-outline-success btn-wave waves-effect waves-light">
-                                            <i class="fe fe-arrow-up"></i>
-                                        </button>
+                                        
                                     </div>
                                 </th>
                             </tr>

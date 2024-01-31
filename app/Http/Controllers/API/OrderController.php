@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -35,6 +36,9 @@ class OrderController extends Controller
         }
 
         $query->with(["user", "order_items",  "assigned_user"]);
+        if (in_array(Auth::user()->role->name, ['full_time_driver', 'part_time_driver'])) {
+            $query->where('assigned_to', Auth::id());
+        }
         $datas = $query->paginate($this->numPerPage);
 
         return $this->hasSuccess('Lấy danh sách đơn hàng thành công!', $datas);

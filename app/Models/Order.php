@@ -19,12 +19,10 @@ class Order extends Model
     public function getIsEditableAttribute()
     {
         $user = User::find(Auth::id());
-        if (('IN_PROGRESS' == $this->status || 'in_progress' == $this->status) && in_array($user->role->name, ['superadmin', 'manager', 'full_time_driver', 'part_time_driver'])) {
+        if (!in_array($this->status, ['COMPLETED', 'completed', 'cancel', 'CANCEL'])) {
             return true;
         }
-        if (('PENDING' == $this->status || 'pending' == $this->status) && in_array($user->role->name, ['superadmin', 'manager'])) {
-            return true;
-        }
+
         return false;
     }
 

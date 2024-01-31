@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     //Product
-    Route::group(['prefix' => 'product'], function () {
+    Route::group(['prefix' => 'product', 'middleware' => 'checkRole:superadmin,manager'], function () {
         Route::get('/', [ProductPageController::class, 'index'])->name('view.product.index');
         Route::get('/create', [ProductPageController::class, 'create'])->name('view.product.create');
         Route::post('/', [ProductPageController::class, 'store'])->name('view.product.store');
@@ -61,17 +61,17 @@ Route::group(['middleware' => 'auth'], function () {
     //Product Log
     Route::group(['prefix' => 'product-log'], function () {
         Route::get('/', [ProductLogPageController::class, 'index'])->name('view.product-log.index');
-        
     });
 
     //Order
     Route::group(['prefix' => 'order'], function () {
         Route::get('/', [OrderPageController::class, 'index'])->name('view.order.index');
-        Route::get('/create', [OrderPageController::class, 'create'])->name('view.order.create');
+        Route::get('/create', [OrderPageController::class, 'create'])->name('view.order.create')->middleware('checkRole:superadmin,manager');
         Route::post('/', [OrderPageController::class, 'store'])->name('view.order.store');
         Route::get('/edit/{model}', [OrderPageController::class, 'edit'])->name('view.order.edit');
         Route::put('/{model}', [OrderPageController::class, 'update'])->name('view.order.update');
-        Route::delete('/{model}', [OrderPageController::class, 'destroy'])->name('view.order.destroy');
+        Route::put('/staff-update/{model}', [OrderPageController::class, 'staff_update'])->name('view.order.staff-update');
+        Route::delete('/{model}', [OrderPageController::class, 'destroy'])->name('view.order.destroy')->middleware('checkRole:superadmin,manager');
     });
 
     Route::group(['prefix' => 'event'], function () {

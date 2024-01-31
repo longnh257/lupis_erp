@@ -24,10 +24,9 @@
             </div>
             <ul class="main-menu">
 
-                <!--    <li class="slide has-sub {{ request()->is(['customer','customer/*','function*','nationality*','native-language*']) ? 'open' : '' }}"> -->
                 @if(Auth::user()->role_id==1)
-                <li class="slide has-sub open">
-                    <a href="javascript:void(0);" class="side-menu__item {{ request()->is(['customer','customer/*','function*','nationality*','native-language*']) ? 'active' : '' }}">
+                <li class="slide has-sub  {{ request()->is(['user','user/*','function*','nationality*','native-language*']) ? 'open' : '' }}">
+                    <a href="javascript:void(0);" class="side-menu__item {{ request()->is(['user','user/*','function*','nationality*','native-language*']) ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0V0z" fill="none" />
                             <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3" />
@@ -46,11 +45,10 @@
 
                     </ul>
                 </li>
-                @endif
 
 
 
-                <li class="slide has-sub ">
+                <li class="slide has-sub {{ request()->is(['product','product/*','product-log','product-log/*']) ? 'open' : '' }}">
                     <a href="javascript:void(0);" class="side-menu__item {{ request()->is(['product','product/*','product-log','product-log/*']) ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0V0z" fill="none" />
@@ -69,18 +67,8 @@
                         </li>
                     </ul>
                 </li>
-                
-                <li class="slide">
-                    <a href="{{asset('/order')}}" class="side-menu__item {{ request()->is(['order*']) ? 'active' : '' }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0V0z" fill="none" />
-                            <path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" />
-                            <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
-                        </svg>
-                        <span class="side-menu__label">Đơn hàng</span>
-                    </a>
-                </li>
-                
+                @endif
+
                 <li class="slide">
                     <a href="{{asset('/user/profile')}}" class="side-menu__item {{ request()->is(['user/profile*']) ? 'active' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
@@ -92,10 +80,20 @@
                     </a>
                 </li>
 
+                <li class="slide">
+                    <a href="{{asset('/order')}}" class="side-menu__item {{ request()->is(['order*']) ? 'active' : '' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" />
+                            <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
+                        </svg>
+                        <span class="side-menu__label">Đơn hàng</span>
+                    </a>
+                </li>
 
             </ul>
 
-            
+
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
                 </svg></div>
