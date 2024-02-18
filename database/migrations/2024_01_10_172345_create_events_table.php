@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->date('event_date');
             $table->unsignedBigInteger('user_id');
+            $table->date('start');//ngày làm việc
             $table->string('event_type'); // Loại sự kiện: làm việc, nghỉ phép, vv.
             $table->string('shift'); // Ca làm việc
             $table->boolean('approved')->default(0); // Duyệt hay chưa

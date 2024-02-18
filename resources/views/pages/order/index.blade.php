@@ -281,6 +281,7 @@
                     type: 'GET',
                     url: "{{route('api.order.list')}}" + conditionSearch,
                     success: function(data) {
+                        console.log(data);
                         that.list = data.result.data;
                         that.count = data.result.last_page;
                         let pageArr = [];

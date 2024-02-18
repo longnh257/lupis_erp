@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -35,10 +36,30 @@ class EventController extends Controller
         if ($s = $request->has("s")) {
             $query->where("name", "LIKE", "%" . $s . "%");
         }
-        $query->with(["user", "products",  "assigned_to"]);
-        $datas = $query->paginate($this->numPerPage);
+        $workEvents = clone  $query;
+        $offEvents = clone  $query;
+        $workEvents = $workEvents->where('event_type', 'work')->get();
+        $offEvents = $offEvents->where('event_type', 'off')->get();
+        $allEvents = $query->paginate($this->numPerPage);
 
-        return $this->hasSuccess('Lấy danh sách đơn hàng thành công!', $datas);
+        return [
+            'message' => "Get list success",
+            "workEvents" =>  [
+                'id' => 1,
+                'borderColor' => '#0162e8',
+                'backgroundColor' => '#0162e8',
+                'textColor' => '#fff',
+                'events' => $workEvents
+            ],
+            "offEvents" =>  [
+                'id' => 2,
+                'borderColor' => '#ffc107',
+                'backgroundColor' => '#ffc107',
+                'textColor' => '#fff',
+                'events' => $offEvents
+            ],
+            "result" =>  $allEvents,
+        ];
     }
 
     public function store(Request $request)
@@ -65,11 +86,10 @@ class EventController extends Controller
 
         return $this->hasSuccess('Thành công!', $event);
     }
-    
+
     public function pendingEvent(Event $event)
     {
         $event->update(['approved' => 0]);
         return $this->hasSuccess('Thành công!', $event);
-
     }
 }

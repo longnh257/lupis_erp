@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductLogController;
@@ -76,6 +77,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'event'], function () {
         Route::get('/', [EventPageController::class, 'index'])->name('view.event.index');
+        Route::post('/', [EventPageController::class, 'store'])->name('view.event.store');
+        Route::get('/edit/{model}', [EventPageController::class, 'edit'])->name('view.event.edit');
+        Route::put('/{model}', [EventPageController::class, 'update'])->name('view.event.update');
     });
 
     //end user
@@ -100,4 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [OrderController::class, 'index'])->name('api.order.list');
         });
     });
+});
+Route::group(['prefix' => 'event'], function () {
+    Route::get('/api/user-event', [EventController::class, 'userEvent'])->name('api.event.user-event');
 });
