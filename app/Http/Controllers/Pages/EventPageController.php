@@ -32,8 +32,20 @@ class EventPageController extends Controller
             ->with('success', 'Thêm lịch thành công!');
     }
 
-    public function edit(Event $model){
+    public function updateStatus(Event $model, Request $request)
+    {
+
+        $model->update([
+            'status' => $request->status,
+            'reason' => $request->reason,
+        ]);
+
+        return redirect()->route('view.event.index')
+            ->with('success', 'Thêm lịch thành công!');
+    }
+
+    public function edit(Event $model)
+    {
         dd($model->user);
     }
- 
 }

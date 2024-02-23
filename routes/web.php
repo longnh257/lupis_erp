@@ -79,8 +79,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [EventPageController::class, 'index'])->name('view.event.index');
         Route::post('/', [EventPageController::class, 'store'])->name('view.event.store');
         Route::get('/edit/{model}', [EventPageController::class, 'edit'])->name('view.event.edit');
-        Route::put('/{model}', [EventPageController::class, 'update'])->name('view.event.update');
-        Route::put('/{model}', [EventPageController::class, 'delete'])->name('view.event.delete');
+        Route::put('/{model}', [EventPageController::class, 'updateStatus'])->name('view.event.updateStatus');
+        Route::delete('/{model}', [EventPageController::class, 'delete'])->name('view.event.delete');
     });
 
     //end user

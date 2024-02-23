@@ -25,14 +25,6 @@
     <!-- End Page Header -->
     <!-- row opened -->
     <div class="row">
-
-        <div class="col-xl-9">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <div id='calendar' class="mt-0"></div>
-                </div>
-            </div>
-        </div>
         <div class="col-xl-3">
             <div class="card custom-card">
                 <div class="card-header d-grid">
@@ -41,7 +33,7 @@
                             <div class="fc-event-main">Ngày Làm</div>
                         </div>
                         <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event bg-warning border border-warning">
-                            <div class="fc-event-main">Ngày nghỉ</div>
+                            <div class="fc-event-main">Ngày Nghỉ</div>
                         </div>
                     </div>
                 </div>
@@ -54,57 +46,118 @@
         </div>
         <div class="col-xl-6">
             <div class="card custom-card">
-                <div class="modal fade" id="calendar_event_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <form action="{{route('view.event.store')}}" method="POST">
-                        @csrf
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h6 class="modal-title" id="exampleModalLabel">Thêm lịch</h6>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="d-flex gap-4 mb-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="event_type" value="work" id="event_type1" v-model="event_type">
-                                            <label class="form-check-label" for="event_type1">
-                                                Ngày Làm
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="event_type" value="off" id="event_type2" v-model="event_type">
-                                            <label class="form-check-label" for="event_type2">
-                                                Ngày Nghỉ
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="start" class="col-form-label">Ngày:</label>
-                                        <input type="date" class="form-control" name="start" id="datePickerId" v-model="selected_date">
-                                    </div>
-
-                                    <div class="mb-2" v-if="event_type=='work'">
-                                        <label for="shift" class="col-form-label">Ca làm việc:</label>
-                                        <select type="date" class="form-control" name="shift" v-model="shift">
-                                            <option value="1">Ca 1</option>
-                                            <option value="2">Ca 2</option>
-                                            <option value="3">Ca 3</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Ghi chú:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="submit" class="btn btn-primary" action="/event">Đăng ký</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                <div class="card-body">
+                    <div id='calendar' class="mt-0"></div>
                 </div>
             </div>
+        </div>
+     
+
+        <div class="modal fade" id="add_event_modal" tabindex="-1" aria-labelledby="add_event_modal" aria-hidden="true">
+            <form action="{{route('view.event.store')}}" method="POST">
+                @csrf
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="exampleModalLabel">Thêm lịch</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex mb-2">
+                                <div class="form-check col-6">
+                                    <input class="form-check-input" type="radio" name="event_type" value="work" id="event_type1" v-model="event_type">
+                                    <label class="form-check-label" for="event_type1">
+                                        Đăng ký Ngày Làm
+                                    </label>
+                                </div>
+                                <div class="form-check col-6">
+                                    <input class="form-check-input" type="radio" name="event_type" value="off" id="event_type2" v-model="event_type">
+                                    <label class="form-check-label" for="event_type2">
+                                        Đăng ký Ngày Nghỉ
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label for="start" class="col-form-label">Ngày:</label>
+                                <input type="date" class="form-control" name="start" id="datePickerId" v-model="selected_date">
+                            </div>
+
+                            <div class="mb-2" v-if="event_type=='work'">
+                                <label for="shift" class="col-form-label">Ca làm việc:</label>
+                                <select type="date" class="form-control" name="shift" v-model="shift">
+                                    <option value="1">Ca 1</option>
+                                    <option value="2">Ca 2</option>
+                                    <option value="3">Ca 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Ghi chú:</label>
+                                <textarea class="form-control" id="message-text" name="note" v-model="note"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" action="/event">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="modal fade" id="edit_event_modal" tabindex="-1" aria-labelledby="edit_event_modal" aria-hidden="true">
+            <form v-bind:action="selectedEvent.url" method="POST">
+                @method("PUT")
+                @csrf
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="exampleModalLabel">Phê duyệt lịch ((selectedEvent.event_type=='off'? ' - Nghỉ Phép' : ' - Làm Việc'))</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body py-0">
+                            <div class="mb-2">
+                                <label for="start" class="col-form-label">Ngày:</label>
+                                <input type="date" class="form-control" id="datePickerId" disabled v-model="selectedEvent.start">
+                            </div>
+
+                            <div class="mb-2" v-if="selectedEvent.event_type=='work'">
+                                <label for="shift" class="col-form-label">Ca làm việc:</label>
+                                <select type="date" class="form-control" disabled v-model="selectedEvent.shift"> 
+                                    <option value="1">Ca 1</option>
+                                    <option value="2">Ca 2</option>
+                                    <option value="3">Ca 3</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Ghi chú của nhân viên:</label>
+                                <textarea class="form-control" id="message-text" v-model="selectedEvent.note" disabled></textarea>
+                            </div>
+
+                            <div class="border-top"></div>
+                            
+                            <div class="mb-2" v-if="event_type=='work'">
+                                <label for="shift" class="col-form-label">Trạng Thái:</label>
+                                <select type="date" class="form-control" name="status" v-model="selectedEvent.status">
+                                    <option value="0">Đợi Duyệt</option>
+                                    <option value="1">Đã Duyệt</option>
+                                    <option value="2">Từ Chối</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Lý Do Từ Chối:</label>
+                                <textarea class="form-control" id="message-text" name='reason' v-model="selectedEvent.reason"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary" action="/event">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <!-- /row -->
@@ -139,6 +192,11 @@
             warning: 0,
             success: 2000,
         },
+        labels: {
+            alert: 'Lỗi',
+            warning: 'Chú Ý',
+            success: 'Thành Công',
+        },
         icons: {
             enabled: false
         }
@@ -153,6 +211,7 @@
             selected_date: '',
             shift: '1',
             event_type: 'work',
+            note: '',
             count: 0,
             page: 1,
             list: [],
@@ -161,6 +220,7 @@
             conditionSearch: '',
             listPage: [],
             showCount: 10,
+            selectedEvent:{}
         },
         delimiters: ["((", "))"],
         mounted() {
@@ -236,6 +296,23 @@
                     }
                 });
             },
+            deleteItem(id) {
+                Swal.fire({
+                    title: 'Bạn có chắc là muốn xóa ?',
+                    text: "Dữ liệu sẽ không thể khôi phục sau khi xóa!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        jQuery('#formDelete_' + id).submit();
+                    }
+                })
+
+            },
             renderCalendar() {
                 const that = this;
                 var calendarEl = document.getElementById('calendar');
@@ -258,6 +335,11 @@
                     allDayText: "",
                     fixedWeekCount: false,
                     navLinks: true,
+                    eventSources: [this.workEvents, this.offEvents],
+                    dayMaxEvents: 1,
+                    moreLinkContent:function(args){
+                        return 'Xem tất cả';
+                    },
                     select: function(info) {
                         var check = new Date(info.start);
                         var today = new Date();
@@ -265,68 +347,83 @@
                         console.log(info.startStr);
                         console.log(that.selected_date);
                         if (check < today) {} else {
-                            $('#calendar_event_modal').modal('show');
+                            $('#add_event_modal').modal('show');
                         }
                     },
+                    
                     eventClick: function(info) {
-                        console.log(info.event.extendedProps);
-                        if (info.event.extendedProps.approved) {
-                            Swal.fire({
-                                title: 'Lỗi',
-                                text: "Lịch đã được duyệt, vui lòng liên hệ quản lý nếu cần sửa đổi!",
-                                icon: 'warning',
-                                showCancelButton: true,
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'Bạn có chắc là muốn xóa ?',
-                                text: "Dữ liệu sẽ không thể khôi phục sau khi xóa!",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#dc3545',
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Xóa',
-                                cancelButtonText: 'Hủy'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    jQuery.ajax({
-                                        method: 'DELETE',
-                                        url: `{{route('api.event.list')}}/${info.event.id}`,
-                                        success: function(data) {
-                                            console.log(data);
-                                            info.event.remove()
-                                        },
-                                        error: function(xhr, textStatus, error) {
-                                            console.log(xhr, textStatus, error);
-                                            notifier.warning('Có lỗi xảy ra!');
+                        var check = new Date(info.event.start);
+                        var today = new Date();
+                        that.selected_date = info.event.startStr
+                        console.log(info.event.startStr);
+                        @if(App\Models\User::checkUserRole())
+                            var check = new Date(info.event.start);
+                            var today = new Date();
+                            that.selected_date = info.startStr
+                            that.selectedEvent.url  = '{{asset("event")}}/'+info.event.id
+                            that.selectedEvent.start  = info.event.startStr
+                            that.selectedEvent.status  = info.event.extendedProps.status
+                            that.selectedEvent.shift  = info.event.extendedProps.shift
+                            that.selectedEvent.note  = info.event.extendedProps.note
+                            that.selectedEvent.reason  = info.event.extendedProps.reason
+                            that.selectedEvent.event_type  = info.event.extendedProps.event_type
+                            console.log( that.selectedEvent);
+                            if (check < today) {} else {
+                                $('#edit_event_modal').modal('show');
+                            }
+                        @else
+                            if (check < today) {} else {
+                                if (info.event.extendedProps.status == 1) {
+                                    Swal.fire({
+                                        title: 'Lỗi',
+                                        text: "Lịch đã được duyệt, vui lòng liên hệ quản lý nếu cần sửa đổi!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        title: 'Bạn có chắc là muốn xóa ?',
+                                        text: "Dữ liệu sẽ không thể khôi phục sau khi xóa!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#dc3545',
+                                        cancelButtonColor: '#3085d6',
+                                        confirmButtonText: 'Xóa',
+                                        cancelButtonText: 'Hủy'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            jQuery.ajax({
+                                                method: 'DELETE',
+                                                url: `{{route('api.event.list')}}/${info.event.id}`,
+                                                success: function(data) {
+                                                    console.log(data);
+                                                    info.event.remove()
+                                                    notifier.success('Lịch đã được xóa!');
+                                                },
+                                                error: function(xhr, textStatus, error) {
+                                                    console.log(xhr, textStatus, error);
+                                                    notifier.warning('Có lỗi xảy ra!');
+                                                }
+                                            });
                                         }
-                                    });
+                                    })
                                 }
-                            })
-                        }
+                            }
+                        @endif
 
                     },
-                    dayMaxEvents: true,
-                    eventSources: [this.workEvents, this.offEvents],
+                    @if(!App\Models\User::checkUserRole())
+                    selectOverlap: () => {
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: "Chỉ được tạo 1 sự kiện cho 1 ngày!",
+                            icon: 'warning',
+                        })
+                        return false
+                    },
+                    @endif
                 });
                 calendar.render();
-            },
-            deleteItem(id) {
-                Swal.fire({
-                    title: 'Bạn có chắc là muốn xóa ?',
-                    text: "Dữ liệu sẽ không thể khôi phục sau khi xóa!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Xóa',
-                    cancelButtonText: 'Hủy'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        jQuery('#formDelete_' + id).submit();
-                    }
-                })
-
             },
         },
     });

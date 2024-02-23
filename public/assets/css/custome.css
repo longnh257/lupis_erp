@@ -66,9 +66,16 @@
 }
 
 .fc-day-future,
-.fc-day-today{
+.fc-day-today {
     cursor: pointer;
 }
-.fc-daygrid-event{
+.fc-daygrid-event {
     white-space: wrap !important;
 }
+
+
+.fc-more-link:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
