@@ -31,6 +31,7 @@
     <meta name="keywords" content="@yield('keywords', '')">
     <link rel="stylesheet" href="{{ asset('assets/libs/prismjs/themes/prism-coy.min.css') }}">
     <link href="{{ asset('assets/css/custome.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>

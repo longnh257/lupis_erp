@@ -32,7 +32,9 @@ class EventController extends Controller
     {
         $user = Auth::user();
         $query  = Event::query();
-        $query =  $query->where('user_id', $user->id);
+        if (!User::checkUserRole()) {
+            $query =  $query->where('user_id', $user->id);
+        }
         if ($s = $request->has("s")) {
             $query->where("name", "LIKE", "%" . $s . "%");
         }
@@ -91,5 +93,13 @@ class EventController extends Controller
     {
         $event->update(['approved' => 0]);
         return $this->hasSuccess('Thành công!', $event);
+    }
+    public function delete(Event $model)
+    {
+        if ($model->approved) {
+            return $this->hasError('Lịch đã được duyệt, vui lòng liên hệ quản lý nếu cần sửa đổi!', $model);
+        }
+        $model->delete();
+        return $this->hasSuccess('Thành công!', []);
     }
 }

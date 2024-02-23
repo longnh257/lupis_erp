@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [EventPageController::class, 'store'])->name('view.event.store');
         Route::get('/edit/{model}', [EventPageController::class, 'edit'])->name('view.event.edit');
         Route::put('/{model}', [EventPageController::class, 'update'])->name('view.event.update');
+        Route::put('/{model}', [EventPageController::class, 'delete'])->name('view.event.delete');
     });
 
     //end user
@@ -103,8 +104,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::get('/', [OrderController::class, 'index'])->name('api.order.list');
         });
+        Route::group(['prefix' => 'event'], function () {
+            Route::get('/user-event', [EventController::class, 'userEvent'])->name('api.event.user-event');
+            Route::delete('/{model}', [EventController::class, 'delete'])->name('api.event.delete');
+        });
     });
-});
-Route::group(['prefix' => 'event'], function () {
-    Route::get('/api/user-event', [EventController::class, 'userEvent'])->name('api.event.user-event');
 });

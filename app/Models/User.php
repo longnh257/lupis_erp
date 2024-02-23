@@ -60,6 +60,14 @@ class User extends Authenticatable
         return $this->hasMany(Event::class);
     }
 
+    
+    public static function checkUserRole($roles = array('superadmin', 'admin', 'manager'))
+    {
+        $user = User::find(Auth::id());
+        if (in_array($user->role->name, $roles)) {
+            return true;
+        } else return false;
+    }
 
     public function logs(): HasMany
     {

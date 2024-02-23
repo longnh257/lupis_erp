@@ -69,3 +69,6 @@
 .fc-day-today{
     cursor: pointer;
 }
+.fc-daygrid-event{
+    white-space: wrap !important;
+}

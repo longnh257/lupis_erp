@@ -31,4 +31,9 @@ class EventPageController extends Controller
         return redirect()->route('view.event.index')
             ->with('success', 'Thêm lịch thành công!');
     }
+
+    public function edit(Event $model){
+        dd($model->user);
+    }
+ 
 }

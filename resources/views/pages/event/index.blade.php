@@ -23,23 +23,10 @@
         </div>
     </div>
     <!-- End Page Header -->
-
-    @if ($errors->any())
-    @foreach ($errors->all() as $error)
-    <div class="alert alert-danger mx-2" role="alert">
-        {!! $error !!}
-    </div>
-    @endforeach
-    @endif
-    @if (session('error'))
-    <div class="alert alert-danger mx-2" role="alert">
-        {{ session('error') }}
-    </div>
-    @endif
     <!-- row opened -->
     <div class="row">
 
-        <div class="col-xl-6">
+        <div class="col-xl-9">
             <div class="card custom-card">
                 <div class="card-body">
                     <div id='calendar' class="mt-0"></div>
@@ -137,6 +124,7 @@
 <script src="{{ asset('assets/js/custom-switcher.min.js') }}"></script>
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/csrf.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
 <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
@@ -145,7 +133,16 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-    var options = {}
+    var options = {
+        durations: {
+            alert: 0,
+            warning: 0,
+            success: 2000,
+        },
+        icons: {
+            enabled: false
+        }
+    }
     var notifier = new AWN(options);
 
     new Vue({
@@ -258,6 +255,7 @@
                         timeGridDay: "Ngày",
                         listMonth: "Danh Sách",
                     },
+                    allDayText: "",
                     fixedWeekCount: false,
                     navLinks: true,
                     select: function(info) {
@@ -271,6 +269,7 @@
                         }
                     },
                     eventClick: function(info) {
+                        console.log(info.event.extendedProps);
                         if (info.event.extendedProps.approved) {
                             Swal.fire({
                                 title: 'Lỗi',
@@ -290,7 +289,18 @@
                                 cancelButtonText: 'Hủy'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    jQuery('#formDelete_' + id).submit();
+                                    jQuery.ajax({
+                                        method: 'DELETE',
+                                        url: `{{route('api.event.list')}}/${info.event.id}`,
+                                        success: function(data) {
+                                            console.log(data);
+                                            info.event.remove()
+                                        },
+                                        error: function(xhr, textStatus, error) {
+                                            console.log(xhr, textStatus, error);
+                                            notifier.warning('Có lỗi xảy ra!');
+                                        }
+                                    });
                                 }
                             })
                         }
@@ -321,4 +331,17 @@
         },
     });
 </script>
+
+
+@if (session('error'))
+<script>
+    notifier.alert(`{{ session('error') }}`);
+</script>
+@endif
+
+@if (session('success'))
+<script>
+    notifier.success(`{{ session('success') }}`);
+</script>
+@endif
 @endsection
