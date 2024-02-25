@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\SalaryConfig;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,19 +27,27 @@ class UserPageController extends Controller
 
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required|max:191',
+            'email' => 'email|required|max:191|unique:users,email',
+            'password' => 'required|confirmed|min:8|max:191',
+            'role_id' => 'required',
+            'address' => 'max:191',
+        ];
+        if ($request->salary_config == 'by_shift') {
+            $rules['basic_salary_per_shift'] = 'required|numeric|min:0|max:100000000';
+        }
+        if ($request->salary_config == 'by_revenue') {
+            $rules['revenue_percentage'] = 'required|numeric|between:0,100';
+        }
+
         $request->validate(
-            [
-                'name' => 'required|max:191',
-                'email' => 'email|required|max:191|unique:users,email',
-                'password' => 'required|confirmed|min:8|max:191',
-                'role_id' => 'required',
-                'address' => 'max:191',
-            ],
+
             trans('userValidation.messages'),
             trans('userValidation.attributes'),
         );
 
-        User::create([
+        $user = User::create([
             "name" => $request->name,
             "email" => $request->email,
             "phone" => $request->phone,
@@ -47,6 +56,13 @@ class UserPageController extends Controller
             "gender" => $request->gender,
             "birthday" => $request->birthday,
             "password" => bcrypt($request->password),
+        ]);
+
+        SalaryConfig::create([
+            "user_id" => $user->id,
+            "salary_type" => $request->salary_type,
+            "basic_salary_per_shift" => $request->basic_salary_per_shift,
+            "revenue_percentage" => $request->revenue_percentage,
         ]);
 
         return redirect()->route('view.user.index')
@@ -68,15 +84,19 @@ class UserPageController extends Controller
             [
                 'name' => 'required|max:191',
                 'email' => 'email|required|max:191|unique:users,email,' . $model->id . ',id',
-                'phone' => 'regex:/^\d{10}$/|max:12',
-                'password' => 'confirmed|min:8|max:191',
+                'password' => 'required|confirmed|min:8|max:191',
                 'role_id' => 'required',
                 'address' => 'max:191',
             ],
             trans('userValidation.messages'),
             trans('userValidation.attributes'),
         );
-
+        if ($request->salary_config == 'by_shift') {
+            $rules['basic_salary_per_shift'] = 'required|numeric|min:0|max:10000000';
+        }
+        if ($request->salary_config == 'by_revenue') {
+            $rules['revenue_percentage'] = 'required|numeric|between:0,100';
+        }
         $cred = [
             "name" => $request->name,
             "email" => $request->email,
@@ -92,6 +112,11 @@ class UserPageController extends Controller
         }
 
         $model->update($cred);
+        $model->salary_config->update([
+            "salary_type" => $request->salary_type,
+            "basic_salary_per_shift" => $request->basic_salary_per_shift,
+            "revenue_percentage" => $request->revenue_percentage,
+        ]);
 
         return redirect()->route('view.user.index')
             ->with('success', 'Cập nhật thành công!');

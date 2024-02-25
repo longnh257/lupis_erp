@@ -33,7 +33,7 @@ class Event extends Model
                 $name = 'Đã duyệt';
                 break;
             case (2):
-                $name = 'Đã từ chối';
+                $name = 'Đã hủy';
                 break;
             default:
         }

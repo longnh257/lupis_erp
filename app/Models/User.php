@@ -54,13 +54,17 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    
+    public function salary_config()
+    {
+        return $this->hasOne(SalaryConfig::class);
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    
+
     public static function checkUserRole($roles = array('superadmin', 'admin', 'manager'))
     {
         $user = User::find(Auth::id());

@@ -16,7 +16,7 @@
 @if ($errors->any())
 @foreach ($errors->all() as $error)
 <div class="alert alert-danger mx-4" role="alert">
-   {!! $error !!}
+    {!! $error !!}
 </div>
 @endforeach
 @endif
@@ -33,7 +33,7 @@
 
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row border rounded pt-3">
                         <div class="col-md-12 mb-3">
                             <label class="form-label required">Họ Tên</label>
                             <input type="text" class="form-control" name="name" value="{{ $model->name }}" placeholder="Họ Tên" aria-label="Họ tên">
@@ -112,21 +112,48 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Chỉnh sửa</button>
+                    <div class="card-title mt-3">
+                        Cấu hình lương
+                    </div>
+                    <div class="row border rounded pt-3" id="App">
+
+                        <div class="col-md-12 mb-3 ">
+                            <label class="form-label required">Cách tính lương</label>
+                            <select type="text" class="form-control" name="salary_type" v-model="salary_type" required>
+                                <option value="by_shift">Theo ca</option>
+                                <option value="by_revenue">Theo theo doanh thu</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-3 " v-if="salary_type=='by_shift'">
+                            <label class="form-label required">Lương cơ bản mỗi ca</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control"  name="basic_salary_per_shift"  value="{{$model->salary_config?->basic_salary_per_shift}}" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3 " v-if="salary_type=='by_revenue'">
+                            <label class="form-label required">Tỉ lệ % theo doanh thu</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" name="revenue_percentage" value="{{$model->salary_config?->revenue_percentage}}" step=0.01 required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">% Doanh Thu</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-none border-top-0">
-
+                <div class="col-md-12 text-end pb-3 pe-2">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </form>
-
-
 
 @endsection
 
@@ -138,4 +165,24 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 
+
+
+<script type="text/javascript">
+    var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
+    var S_HYPEN = "-";
+    var options = {}
+    var notifier = new AWN(options);
+
+    new Vue({
+        el: '#App',
+        data: {
+            salary_type: '{{$model->salary_config?->salary_type}}',
+        },
+        delimiters: ["((", "))"],
+        mounted() {},
+        computed: {},
+
+        methods: {},
+    });
+</script>
 @endsection

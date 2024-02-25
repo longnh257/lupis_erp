@@ -142,12 +142,12 @@
                                 <select type="date" class="form-control" name="status" v-model="selectedEvent.status">
                                     <option value="0">Đợi Duyệt</option>
                                     <option value="1">Đã Duyệt</option>
-                                    <option value="2">Từ Chối</option>
+                                    <option value="2">Đã Hủy</option>
                                 </select>
                             </div>
 
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Lý Do Từ Chối:</label>
+                                <label for="message-text" class="col-form-label">Lý Do Hủy:</label>
                                 <textarea class="form-control" id="message-text" name='reason' v-model="selectedEvent.reason"></textarea>
                             </div>
                         </div>
