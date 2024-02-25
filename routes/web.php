@@ -4,6 +4,7 @@ use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductLogController;
+use App\Http\Controllers\API\SalaryController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Pages\AuthController;
 use App\Http\Controllers\Pages\EventPageController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\OrderPageController;
 use App\Http\Controllers\Pages\ProductLogPageController;
 use App\Http\Controllers\Pages\ProductPageController;
+use App\Http\Controllers\Pages\SalaryPageController;
 use App\Http\Controllers\Pages\UserPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,8 +84,19 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{model}', [EventPageController::class, 'updateStatus'])->name('view.event.updateStatus');
         Route::delete('/{model}', [EventPageController::class, 'delete'])->name('view.event.delete');
     });
-
     //end user
+
+    //salary
+    Route::group(['prefix' => 'salary'], function () {
+        Route::get('/', [SalaryPageController::class, 'index'])->name('view.salary.index');
+        Route::get('/create', [SalaryPageController::class, 'create'])->name('view.salary.create');
+        Route::post('/', [SalaryPageController::class, 'store'])->name('view.salary.store');
+        Route::get('/edit/{model}', [SalaryPageController::class, 'edit'])->name('view.salary.edit');
+        Route::put('/{model}', [SalaryPageController::class, 'update'])->name('view.salary.update');
+        Route::put('/staff-update/{model}', [SalaryPageController::class, 'staff_update'])->name('view.salary.staff-update');
+        Route::delete('/{model}', [SalaryPageController::class, 'destroy'])->name('view.salary.destroy');
+    });
+    //end salary
 
 });
 
@@ -104,6 +117,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::get('/', [OrderController::class, 'index'])->name('api.order.list');
         });
+
+        Route::group(['prefix' => 'salary'], function () {
+            Route::get('/', [SalaryController::class, 'index'])->name('api.salary.list');
+        });
+
         Route::group(['prefix' => 'event'], function () {
             Route::get('/user-event', [EventController::class, 'userEvent'])->name('api.event.user-event');
             Route::delete('/{model}', [EventController::class, 'delete'])->name('api.event.delete');

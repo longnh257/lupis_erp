@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('salary', 10, 2);
             $table->decimal('bonus', 10, 2)->default(0);
             $table->decimal('total_salary', 10, 2);
+            $table->date('payday')->nullable();
             $table->timestamps();
         });
     }
