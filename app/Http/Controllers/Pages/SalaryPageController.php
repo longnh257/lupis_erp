@@ -11,6 +11,7 @@ use App\Models\SalaryDetailItem;
 use App\Models\Product;
 use App\Models\ProductLog;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,7 @@ class SalaryPageController extends Controller
 
     public function create()
     {
+
         $user = User::whereIn('role_id', [UserRole::part_time_driver, UserRole::full_time_driver])->get();
         $product = Product::where('quantity', '>', 0)->get();
         return view('pages.salary.create', compact('user', 'product'));
@@ -34,48 +36,51 @@ class SalaryPageController extends Controller
 
     public function store(Request $request)
     {
-        // Start a database transaction
-        DB::beginTransaction();
-        $request->validate(
-            [
-                'assigned_to' => 'required',
+        $users = User::where('id', '!=',  1)->whereHas('salary_config')->with(['salary_config'])->get();
+        $month = Carbon::parse($request->month)->format('m');
+        $year = Carbon::parse($request->month)->format('Y');
+        $startDate = Carbon::createFromDate($year, $month, 1);
+        $endDate = $startDate->copy()->endOfMonth();
 
-            ],
-            trans('salaryValidation.messages'),
-            trans('salaryValidation.attributes'),
-        );
+        foreach ($users as $user) {
+            // tính lương cho nhân viên theo ca
+            if ($user->salary_config->salary_type == 'by_shift') {
+                $user->loadCount([
+                    'events as work_shift_count' => function ($query) use ($startDate, $endDate) {
+                        $query->where('event_type', 'work')->whereBetween('start', [$startDate, $endDate]);
+                    }
+                ]);
+                $shift_count = $user->work_shift_count;
+                $basic_salary = $user->salary_config->basic_salary;
+                $basic_salary_per_shift = $user->salary_config->basic_salary_per_shift;
+                $bonus_percentage = $user->salary_config->bonus_percentage;
+                $revenue_percentage = $user->salary_config->revenue_percentage;
 
-        $collection = collect($request->attr);
+                $salary = $basic_salary_per_shift * $shift_count;
+                $bonus = 0;
+                $total_salary = $salary + $bonus;
+                $user->salary_details()->create([
+                    'salary_month' => $request->month,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'shift_count' => $shift_count,
+                    'basic_salary' => $basic_salary,
+                    'basic_salary_per_shift' => $basic_salary_per_shift,
+                    'bonus_percentage' => $bonus_percentage,
+                    'revenue_percentage' => $revenue_percentage,
+                    'salary' => $salary,
+                    'bonus' => $bonus,
+                    'total_salary' => $total_salary,
+                    'payday' => $request->payday,
+                ]);
+            }
 
-        // Sử dụng filter để loại bỏ các sản phẩm có quantity = 0 hoặc không có quantity
-        $filteredCollection = $collection->filter(function ($item) {
-            return isset($item['quantity']) && (int)$item['quantity'] !== 0;
-        });
-
-        $result = $filteredCollection->groupBy('product_id')->mapWithKeys(function ($group, $productId) {
-            return [$productId => $group->sum('quantity')];
-        });
-
-
-        $resultArray = $result->all();
-        if (empty($resultArray)) {
-            DB::rollBack();
-            return redirect()->back()->with('error', "Vui lòng nhập sản phẩm cho đơn hàng.");
-        } else {
-            foreach ($resultArray as $product_id => $quantity) {
-                $product = Product::find($product_id);
-                if ($product->quantity >=  $quantity) {
-                  
-
-                    $product->quantity = $product->quantity - $quantity;
-                    $product->save();
-                } else {
-                    DB::rollBack();
-                    return redirect()->back()->with('error', "Số lượng nhập vào nhiều hơn số lượng tồn kho!");
-                }
+            // tính lương cho nhân viên theo lợi nhuận
+            if ($user->salary_config->salary_type == 'by_revenue') {
             }
         }
-        DB::commit();
+        // Start a database transaction
+
         return redirect()->route('view.salary.index')
             ->with('success', 'Tạo đơn hàng thành công!');
     }
@@ -119,7 +124,6 @@ class SalaryPageController extends Controller
                 trans('salaryValidation.messages'),
                 trans('salaryValidation.attributes'),
             );
-
         } else {
             $model->update([
                 'note' => $request->note,

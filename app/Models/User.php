@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasOne(SalaryConfig::class);
     }
 
+    public function salary_details()
+    {
+        return $this->hasMany(SalaryDetail::class);
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);

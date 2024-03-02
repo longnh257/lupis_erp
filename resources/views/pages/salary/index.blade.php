@@ -7,18 +7,20 @@
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div class="my-auto">
-            <h4 class="mb-0">Đơn Hàng</h4>
+            <h4 class="mb-0">Bảng Lương</h4>
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Trang Chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Đơn Hàng</li>
+                    <li class="breadcrumb-item active" aria-current="page">Bảng Lương</li>
                 </ol>
             </nav>
         </div>
         <div class="d-flex my-xl-auto right-content align-items-center">
             <div>
-                <a @click="openSalaryModal" class="btn btn-info btn-icon btn-b" target="_blank">
-                    <i class="fe fe-plus"></i></a>
+                <a @click="openSalaryModal" class="btn btn-info btn-b" target="_blank">
+                    <i class="fe fe-plus"></i>
+                    Tính Lương
+                </a>
             </div>
         </div>
     </div>
@@ -39,14 +41,6 @@
                     <div class="card-title">
                         Danh Sách Đơn Hàng
                     </div>
-
-                    <!--   <a href="javascript:void(0);" class="btn btn-icon btn-sm btn-light bg-transparent rounded-pill" data-bs-toggle="dropdown"><i class="fe fe-more-horizontal"></i></a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="javascript:void(0);">10</a>
-                        <a class="dropdown-item" href="javascript:void(0);">20</a>
-                        <a class="dropdown-item" href="javascript:void(0);">30</a>
-                        <a class="dropdown-item" href="javascript:void(0);">Tất cả</a>
-                    </div> -->
                 </div>
                 <form action="" @submit.prevent="filterList">
                     <div class="d-flex flex-rows gap-3 bsalary p-3 mb-3 pb-0 shadow-sm">
@@ -198,45 +192,46 @@
     </div>
     <!-- /row -->
 
-    <div class="modal fade" id="salaryModal" tabindex="-1" aria-labelledby="salaryModal" aria-hidden="true">
-    <form v-bind:action="'a'" method="POST">
-        @method("PUT")
-        @csrf
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="exampleModalLabel">Tính lương </h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body py-0">
 
-                    <div class="mb-2">
-                        <label for="shift" class="col-form-label">Tháng:</label>
-                        <select type="date" class="form-control">
-                            <option value="1">Tháng 1</option>
-                            <option value="1">Tháng 2</option>
-                            <option value="1">Tháng 3</option>
-                           
-                        </select>
+    <div class="modal fade" id="salaryModal" aria-labelledby="salaryModal" aria-hidden="true">
+        <form action="{{asset(route('view.salary.store'))}}" method="POST">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel">Tính lương </h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-2">
-                        <label for="shift" class="col-form-label">Năm:</label>
-                        <select type="date" class="form-control">
-                            <option value="2024">2024</option>
-                           
-                        </select>
-                    </div>
+                    <div class="modal-body py-0">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-primary" action="/event">Cập nhật</button>
+                        <div class="mb-2 mt-3">
+                            <label for="input-month" class="form-label">Tháng</label>
+                            <input type="month" name="month" class="form-control" id="input-month">
+                        </div>
+
+                        <div class="mb-2 mt-3">
+                            <label for="input-month" class="form-label">Ngày phát lương</label>
+                            <input type="date" name="payday" class="form-control">
+                        </div>
+
+                        <div class="mb-2 mt-3">
+                            <label for="shift" class="col-form-label">Nhân Viên</label>
+                            <select type="date" class="form-control">
+                                <option value="all">Toàn bộ nhân viên</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary" action="/event">Cập nhật</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-</div>
+
 
 
 @endsection
@@ -251,7 +246,13 @@
 <script src="{{ asset('assets/js/custom-switcher.min.js') }}"></script>
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
-
+<script>
+/*     var currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    var formattedDate = currentDate.toISOString().slice(0, 7);
+    console.log(formattedDate);
+    document.getElementById("input-month").setAttribute("max", formattedDate); */
+</script>
 
 
 <script type="text/javascript">

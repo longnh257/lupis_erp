@@ -25,6 +25,14 @@
     <!-- End Page Header -->
     <!-- row opened -->
     <div class="row">
+        
+        <div class="col-xl-9">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div id='calendar' class="mt-0"></div>
+                </div>
+            </div>
+        </div>
         <div class="col-xl-3">
             <div class="card custom-card">
                 <div class="card-header d-grid">
@@ -44,14 +52,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <div id='calendar' class="mt-0"></div>
-                </div>
-            </div>
-        </div>
-     
 
         <div class="modal fade" id="add_event_modal" tabindex="-1" aria-labelledby="add_event_modal" aria-hidden="true">
             <form action="{{route('view.event.store')}}" method="POST">
@@ -323,11 +323,12 @@
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,listMonth'
+                        right: 'dayGridMonth,dayGridWeek,listMonth'
                     },
                     buttonText: {
                         today: "Hôm Nay",
                         dayGridMonth: "Tháng",
+                        dayGridWeek: "Tuần",
                         timeGridWeek: "Tuần",
                         timeGridDay: "Ngày",
                         listMonth: "Danh Sách",
@@ -336,7 +337,7 @@
                     fixedWeekCount: false,
                     navLinks: true,
                     eventSources: [this.workEvents, this.offEvents],
-                    dayMaxEvents: 1,
+                    dayMaxEvents: true,
                     moreLinkContent:function(args){
                         return 'Xem tất cả';
                     },
