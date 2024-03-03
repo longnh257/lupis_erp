@@ -13,23 +13,22 @@
 </div>
 <!-- End Page Header -->
 
-@if ($errors->any())
-@foreach ($errors->all() as $error)
-<div class="alert alert-danger mx-4" role="alert">
-    {!! $error !!}
-</div>
-@endforeach
-@endif
 @if(in_array(Auth::user()->role->name, ['superadmin', 'manager']))
 <form action="{{route('view.order.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
     @else
-    <form action="{{route('view.order.staff-update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
+    <form action="{{route('view.order.staff-update',$model->id)}}" @if($model->status == 'in_progress') id="userForm" @endif method="post" enctype="multipart/form-data" class="container-fluid">
         @endif
         @csrf
         @method('PUT')
+
         <div class="row">
             <div class="col-xl-6">
                 <div class="card custom-card">
+                    @if($model->status != 'in_progress')
+                    <div class="alert alert-warning m-2 text-center" role="alert">
+                        Đơn hàng đã được chốt, Nhân viên chỉ có thể ghi chú và nhờ quản lý chỉnh sửa đơn hàng!
+                    </div>
+                    @endif
                     <div class=" p-4 pb-2">
                         <h4 class=" text-center">
                             Thông Tin Đơn Hàng #{{$model->id}}
@@ -62,32 +61,25 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        <div>
-                                            <div>Sản Phẩm</div>
-                                        </div>
+                                        <div>Sản Phẩm</div>
                                     </th>
 
                                     <th>
-                                        <div>
-                                            <div>Số Lượng</div>
-                                        </div>
+                                        <div>Số Lượng</div>
                                     </th>
 
                                     <th>
-                                        <div>
-                                            <div class="required">Đã Bán</div>
-                                        </div>
+                                        <div class="required">Đã Bán</div>
+                                    </th>
+                                    <th>
+                                        <div>Còn Lại</div>
                                     </th>
 
                                     <th>
-                                        <div>
-                                            <div>Đơn giá</div>
-                                        </div>
+                                        <div>Đơn giá</div>
                                     </th>
                                     <th>
-                                        <div>
-                                            <div>Tổng</div>
-                                        </div>
+                                        <div>Tổng</div>
                                     </th>
                                 </tr>
                             </thead>
@@ -102,7 +94,10 @@
                                         {{$item->quantity}}
                                     </td>
                                     <td>
-                                        <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->sell_quantity}}" value="{{$item->sell_quantity}}" class="underline-input ">
+                                        <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->quantity}}" value="{{$item->sell_quantity}}" class="underline-input text-success">
+                                    </td>
+                                    <td>
+                                        <span class="text-danger"> {{ number_format($item->quantity - $item->sell_quantity, 2, '.', ',') }}</span>
                                     </td>
                                     <td>
                                         {{$item->sell_price_format}}
@@ -117,8 +112,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <td class="text-end"><strong>Tổng Doanh Thu:</strong></td>
-                                    <td><span>{{$model->revenue}}</span></td>
+                                    <td><span class="text-success">{{$model->revenue}}</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -127,7 +123,6 @@
                         </div>
                     </div>
                     <div class="card-footer d-none border-top-0">
-
                     </div>
                 </div>
             </div>
@@ -182,5 +177,74 @@
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            var options = {
+                durations: {
+                    alert: 0,
+                    warning: 0,
+                    success: 2000,
+                },
+                labels: {
+                    alert: 'Lỗi',
+                    warning: 'Chú Ý',
+                    success: 'Thành Công',
+                },
+                icons: {
+                    enabled: false
+                }
+            }
+            var notifier = new AWN(options);
 
+            $("#userForm").on('submit', (event) => {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Chốt Đơn?',
+                    html: `
+                    <p>
+                    Đơn hàng sẽ được chuyển sang trạng thái <strong>'Đợi Duyệt'</strong>, số lượng hàng còn lại sẽ được nhập vào kho. 
+                    </p>
+                    <p class="text-danger"> Sau khi chốt đơn chỉ quản lý mới có thể chỉnh sửa đơn hàng của bạn! </p>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                })
+            })
+        })
+    </script>
+
+
+
+    @if (session('changePasswordAlert'))
+    <script>
+        notifier.warning(`{{ session('changePasswordAlert') }}`);
+    </script>
+    @endif
+
+    @if ($errors->any())
+    <script>
+        let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+        notifier.alert(alertMessage);
+    </script>
+    @endif
+
+    @if (session('error'))
+    <script>
+        notifier.alert(`{{ session('error') }}`);
+    </script>
+    @endif
+
+    @if (session('success'))
+    <script>
+        notifier.success(`{{ session('success') }}`);
+    </script>
+    @endif
     @endsection

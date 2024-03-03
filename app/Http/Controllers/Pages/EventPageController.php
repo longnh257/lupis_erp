@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -11,11 +12,13 @@ class EventPageController extends Controller
 {
     public function index()
     {
-        return view('pages.event.index');
+        $users = User::where('id', '!=', 1)->get();
+        return view('pages.event.index',compact('users'));
     }
 
     public function store(Request $request)
     {
+        $user = User::find(Auth::id());
         $request->validate(
             [
                 'start' => 'required|date',
@@ -24,8 +27,14 @@ class EventPageController extends Controller
             trans('eventValidation.messages'),
             trans('eventValidation.attributes'),
         );
-
-        $request['user_id'] = Auth::id();
+        if ($request->event_type == 'work') {
+            $request['status'] = 1;
+        }
+        //cho phép admin chọn user để tạo lịch
+        if ($user->checkUserRole()) {
+        } else {
+            $request['user_id'] = Auth::id();
+        }
         $event = Event::create($request->input());
 
         return redirect()->route('view.event.index')

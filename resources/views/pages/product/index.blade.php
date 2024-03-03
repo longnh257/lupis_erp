@@ -26,13 +26,6 @@
 
     <!-- row opened -->
     <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12 mb-2">
-            @if (session('success'))
-            <div class="alert alert-success">
-                {!! session('success')!!}
-            </div>
-            @endif
-        </div>
         <div class="col-md-12 col-lg-12 col-xl-12" id="list-data">
             <div class="card card-table">
                 <div class=" card-header p-0 d-flex justify-content-between mb-2">
@@ -50,43 +43,34 @@
 
                 <div class="table-responsive country-table">
                     <table class="table table-striped table-bordered mb-0 text-nowrap gridjs-table">
-                        <thead class="gridjs-thead">
-                            <tr class="gridjs-tr">
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">ID</div>
+                        <thead >
+                            <tr>
+                                <th>
+                                    <div>ID</div>
 
-                                    </div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort " style="width:80px">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Hình Ảnh</div>
+                                <th style="width:80px">
 
-                                    </div>
+                                    <div>Hình Ảnh</div>
+
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Tên</div>
+                                <th>
 
-                                    </div>
+                                    <div>Tên</div>
+
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Số Lượng</div>
-
-                                    </div>
+                                <th>
+                                    <div>Số Lượng</div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Giá Gốc</div>
+                                <th>
 
-                                    </div>
+                                    <div>Giá Gốc</div>
+
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Giá Bán</div>
+                                <th>
 
-                                    </div>
+                                    <div>Giá Bán</div>
+
                                 </th>
 
 
@@ -181,7 +165,7 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-     var options = {
+    var options = {
         durations: {
             alert: 0,
             warning: 0,

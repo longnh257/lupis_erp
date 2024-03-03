@@ -62,9 +62,11 @@
     border-left: none !important;
     text-align: center !important;
 }
+.status-success,
 .prod-log-import {
-    color: rgb(68, 233, 68);
+    color: rgb(53, 212, 53);
 }
+.status-error,
 .prod-log-export {
     color: rgb(242, 60, 60);
 }

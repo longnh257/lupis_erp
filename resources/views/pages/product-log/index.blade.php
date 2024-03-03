@@ -46,46 +46,28 @@
                     <table class="table table-striped table-bordered mb-0 text-nowrap gridjs-table">
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">ID</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>ID</div>
                                 </th>
 
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Người Tạo</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>Người Tạo</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Chi Tiết</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>Chi Tiết</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Sản Phẩm</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>Sản Phẩm</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Số Lượng</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>Số Lượng</div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Ngày Tạo</div>
-                                        
-                                    </div>
+                                <th>
+                                    <div>Ngày Tạo</div>
                                 </th>
                             </tr>
                         </thead>
@@ -167,7 +149,7 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-     var options = {
+    var options = {
         durations: {
             alert: 0,
             warning: 0,

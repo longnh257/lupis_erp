@@ -2,6 +2,12 @@
 
 @section('title', 'Product')
 
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$current_user = Auth::user();
+?>
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
@@ -45,11 +51,12 @@
                 </div>
                 <form action="" @submit.prevent="filterList">
                     <div class="d-flex flex-rows gap-3 border p-3 mb-3 pb-0 shadow-sm">
-
+                        @if($current_user->checkUserRole())
                         <div class="form-group col w-auto" style="max-width:220px">
                             <label for="staffs" class="mb-2 fw-bold">Nhân viên: </label>
                             <input type="text" step="0.1" v-model="user_name" class="form-control ">
                         </div>
+                        @endif
                         <div class="form-group col w-auto" style="max-width:220px">
                             <label for="staffs" class="mb-2 fw-bold">Trạng thái đơn hàng: </label>
                             <select class="form-control" name="" v-model="status" id="">
@@ -134,13 +141,13 @@
                                 <td class="">
                                     ((item.status_name))
                                 </td>
-                                <td>((item.revenue))</td>
+                                <td> <span class="status-success"> ((item.revenue))</span></td>
                                 <td>((item.note))</td>
                                 <td>((item.order_date))</td>
 
                                 <td>
                                     <div class="hstack gap-2 ">
-                                        <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
+                                        <a :href="`{{asset('order')}}/edit/`+item.id" class="text-warning fs-14 lh-1"><i class="ri-eye-line" title="Xem chi tiết và chốt đơn"></i></a>
                                         <form :action="`{{asset('order')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
                                             @method('DELETE')
                                             @csrf

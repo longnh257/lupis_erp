@@ -105,11 +105,7 @@ class OrderPageController extends Controller
 
     public function edit(Order $model)
     {
-        if ($model->is_editable) {
-            return view('pages.order.edit', compact('model'));
-        } else {
-            abort(403);
-        }
+        return view('pages.order.edit', compact('model'));
     }
 
     public function update(Order $model, Request $request)

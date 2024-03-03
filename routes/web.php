@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create', [OrderPageController::class, 'create'])->name('view.order.create')->middleware('checkRole:superadmin,manager');
         Route::post('/', [OrderPageController::class, 'store'])->name('view.order.store');
         Route::get('/edit/{model}', [OrderPageController::class, 'edit'])->name('view.order.edit');
-        Route::put('/{model}', [OrderPageController::class, 'update'])->name('view.order.update');
+        Route::put('/{model}', [OrderPageController::class, 'update'])->name('view.order.update')->middleware('checkRole:superadmin,manager');
         Route::put('/staff-update/{model}', [OrderPageController::class, 'staff_update'])->name('view.order.staff-update');
         Route::delete('/{model}', [OrderPageController::class, 'destroy'])->name('view.order.destroy')->middleware('checkRole:superadmin,manager');
     });

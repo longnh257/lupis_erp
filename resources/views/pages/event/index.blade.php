@@ -3,6 +3,13 @@
 @section('title', 'User')
 
 @section('content')
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$current_user = Auth::user();
+?>
 <div class="container-fluid" id="list-data">
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -25,7 +32,7 @@
     <!-- End Page Header -->
     <!-- row opened -->
     <div class="row">
-        
+
         <div class="col-xl-9">
             <div class="card custom-card">
                 <div class="card-body">
@@ -46,17 +53,56 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <div id="external-events" class="p-3">
+                    <div id="external-events" class="p-3" @click="openAddModal">
                         <button class="btn btn-primary-light btn-wave"><i class="ri-add-line align-middle me-1 fw-semibold d-inline-block"></i>Thêm lịch</button>
                     </div>
                 </div>
             </div>
+
+            @if($current_user->checkUserRole())
+         <!--    <div class="card custom-card">
+                <div class="card-header d-grid">
+                    <div class="form-group col w-auto" style="max-width:220px">
+                        <label for="staffs" class="mb-2 fw-bold">Nhân viên: </label>
+                        <input type="text" step="0.1" v-model="user_name" class="form-control ">
+                    </div>
+                    <div class="form-group col w-auto" style="max-width:220px">
+                        <label for="staffs" class="mb-2 fw-bold">Trạng thái đơn hàng: </label>
+                        <select class="form-control" name="" v-model="status" id="">
+                            <option value="">Chọn Trạng Thái</option>
+                            <option value="completed">Hoàn thành</option>
+                            <option value="in_progress">Đang Xử Lý</option>
+                            <option value="pending">Đợi duyệt</option>
+                            <option value="cancel">Bị hủy</option>
+                        </select>
+                    </div>
+                    <div class="form-group col w-auto" style="max-width:220px">
+                        <label for="staffs" class="mb-2 fw-bold">Ngày tạo đơn: </label>
+                        <input type="date" v-model="created_at" class="form-control ">
+                    </div>
+
+                    <div class="form-group col w-auto align-self-end d-flex gap-3">
+                        <button class=" btn btn-primary " type="submit" @click="filterList">
+                            Tìm Kiếm
+                        </button>
+                        <div class="d-flex my-xl-auto right-content align-items-center">
+                            <div>
+                                <a href="#" class="btn btn-info btn-icon btn-b" @click="resetFilter">
+                                    <i class="fa-solid fa-rotate-left"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            @endif
         </div>
 
+
         <div class="modal fade" id="add_event_modal" tabindex="-1" aria-labelledby="add_event_modal" aria-hidden="true">
-            <form action="{{route('view.event.store')}}" method="POST">
-                @csrf
-                <div class="modal-dialog">
+            <div class="modal-dialog">
+                <form action="{{route('view.event.store')}}" method="POST">
+                    @csrf
+
                     <div class="modal-content">
                         <div class="modal-header">
                             <h6 class="modal-title" id="exampleModalLabel">Thêm lịch</h6>
@@ -82,6 +128,16 @@
                                 <input type="date" class="form-control" name="start" id="datePickerId" v-model="selected_date">
                             </div>
 
+                            @if($current_user->checkUserRole())
+                            <div class="mb-2" v-if="event_type=='work'">
+                                <label for="shift" class="col-form-label">Nhân viên</label>
+                                <select type="date" class="form-control" name="shift" v-model="user">
+                                    @foreach($users as $key => $user)
+                                    <option value="{{$user->id}}">{{$user->id . " " . $user->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
                             <div class="mb-2" v-if="event_type=='work'">
                                 <label for="shift" class="col-form-label">Ca làm việc:</label>
                                 <select type="date" class="form-control" name="shift" v-model="shift">
@@ -100,16 +156,15 @@
                             <button type="submit" class="btn btn-primary" action="/event">Đăng ký</button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
-
-        <div class="modal fade" id="edit_event_modal" tabindex="-1" aria-labelledby="edit_event_modal" aria-hidden="true">
-            <form v-bind:action="selectedEvent.url" method="POST">
-                @method("PUT")
-                @csrf
-                <div class="modal-dialog">
+        <div class="modal fade" id="edit_event_modal">
+            @method("PUT")
+            @csrf
+            <div class="modal-dialog">
+                <form v-bind:action="selectedEvent.url" method="POST">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h6 class="modal-title" id="exampleModalLabel">Phê duyệt lịch ((selectedEvent.event_type=='off'? ' - Nghỉ Phép' : ' - Làm Việc'))</h6>
@@ -123,7 +178,7 @@
 
                             <div class="mb-2" v-if="selectedEvent.event_type=='work'">
                                 <label for="shift" class="col-form-label">Ca làm việc:</label>
-                                <select type="date" class="form-control" disabled v-model="selectedEvent.shift"> 
+                                <select type="date" class="form-control" disabled v-model="selectedEvent.shift">
                                     <option value="1">Ca 1</option>
                                     <option value="2">Ca 2</option>
                                     <option value="3">Ca 3</option>
@@ -136,7 +191,7 @@
                             </div>
 
                             <div class="border-top"></div>
-                            
+
                             <div class="mb-2" v-if="event_type=='work'">
                                 <label for="shift" class="col-form-label">Trạng Thái:</label>
                                 <select type="date" class="form-control" name="status" v-model="selectedEvent.status">
@@ -156,8 +211,8 @@
                             <button type="submit" class="btn btn-primary" action="/event">Cập nhật</button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     <!-- /row -->
@@ -210,6 +265,7 @@
             sortBy: 'id',
             selected_date: '',
             shift: '1',
+            user: '',
             event_type: 'work',
             note: '',
             count: 0,
@@ -220,7 +276,7 @@
             conditionSearch: '',
             listPage: [],
             showCount: 10,
-            selectedEvent:{}
+            selectedEvent: {}
         },
         delimiters: ["((", "))"],
         mounted() {
@@ -313,6 +369,10 @@
                 })
 
             },
+            openAddModal() {
+                console.log(1);
+                $('#add_event_modal').modal('show');
+            },
             renderCalendar() {
                 const that = this;
                 var calendarEl = document.getElementById('calendar');
@@ -338,7 +398,7 @@
                     navLinks: true,
                     eventSources: [this.workEvents, this.offEvents],
                     dayMaxEvents: true,
-                    moreLinkContent:function(args){
+                    moreLinkContent: function(args) {
                         return 'Xem tất cả';
                     },
                     select: function(info) {
@@ -351,28 +411,34 @@
                             $('#add_event_modal').modal('show');
                         }
                     },
-                    
+
                     eventClick: function(info) {
                         var check = new Date(info.event.start);
                         var today = new Date();
                         that.selected_date = info.event.startStr
                         console.log(info.event.startStr);
-                        @if(App\Models\User::checkUserRole())
-                            var check = new Date(info.event.start);
-                            var today = new Date();
+                        <?php
+                        if ($current_user->checkUserRole()) {
+                        ?>
+                            /*   var check = new Date(info.event.start);
+                              var today = new Date(); */
                             that.selected_date = info.startStr
-                            that.selectedEvent.url  = '{{asset("event")}}/'+info.event.id
-                            that.selectedEvent.start  = info.event.startStr
-                            that.selectedEvent.status  = info.event.extendedProps.status
-                            that.selectedEvent.shift  = info.event.extendedProps.shift
-                            that.selectedEvent.note  = info.event.extendedProps.note
-                            that.selectedEvent.reason  = info.event.extendedProps.reason
-                            that.selectedEvent.event_type  = info.event.extendedProps.event_type
-                            console.log( that.selectedEvent);
-                            if (check < today) {} else {
+                            that.selectedEvent.url = '{{asset("event")}}/' + info.event.id
+                            that.selectedEvent.start = info.event.startStr
+                            that.selectedEvent.status = info.event.extendedProps.status
+                            that.selectedEvent.shift = info.event.extendedProps.shift
+                            that.selectedEvent.note = info.event.extendedProps.note
+                            that.selectedEvent.reason = info.event.extendedProps.reason
+                            that.selectedEvent.event_type = info.event.extendedProps.event_type
+                            console.log(that.selectedEvent);
+                            /*     if (check < today) {} else {
                                 $('#edit_event_modal').modal('show');
-                            }
-                        @else
+                            } */
+                            $('#edit_event_modal').modal('show');
+                        <?php
+                        } else {
+
+                        ?>
                             if (check < today) {} else {
                                 if (info.event.extendedProps.status == 1) {
                                     Swal.fire({
@@ -410,19 +476,25 @@
                                     })
                                 }
                             }
-                        @endif
+                        <?php
+                        }
+                        ?>
 
                     },
-                    @if(!App\Models\User::checkUserRole())
-                    selectOverlap: () => {
-                        Swal.fire({
-                            title: 'Lỗi',
-                            text: "Chỉ được tạo 1 sự kiện cho 1 ngày!",
-                            icon: 'warning',
-                        })
-                        return false
-                    },
-                    @endif
+                    <?php
+                    if (!$current_user->checkUserRole()) {
+                    ?>
+                        selectOverlap: () => {
+                            Swal.fire({
+                                title: 'Lỗi',
+                                text: "Chỉ được tạo 1 sự kiện cho 1 ngày!",
+                                icon: 'warning',
+                            })
+                            return false
+                        }
+                    <?php
+                    }
+                    ?>
                 });
                 calendar.render();
             },
