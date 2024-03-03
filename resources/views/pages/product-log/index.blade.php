@@ -167,7 +167,21 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-    var options = {}
+     var options = {
+        durations: {
+            alert: 0,
+            warning: 0,
+            success: 2000,
+        },
+        labels: {
+            alert: 'Lỗi',
+            warning: 'Chú Ý',
+            success: 'Thành Công',
+        },
+        icons: {
+            enabled: false
+        }
+    }
     var notifier = new AWN(options);
 
     new Vue({

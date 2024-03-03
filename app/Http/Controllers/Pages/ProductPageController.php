@@ -31,6 +31,8 @@ class ProductPageController extends Controller
             [
                 'name' => 'required|max:191|unique:products,name',
                 'quantity' => 'numeric',
+                'price' => 'numeric',
+                'cost' => 'numeric',
                 'file' => 'mimes:jpg,png,jpeg|max:4096',
             ],
             trans('productValidation.messages'),
@@ -73,6 +75,8 @@ class ProductPageController extends Controller
             [
                 'name' => 'required|max:191|unique:products,name,' . $model->id . ',id',
                 'quantity' => 'numeric',
+                'price' => 'numeric',
+                'cost' => 'numeric',
                 'file' => 'mimes:jpg,png,jpeg|max:4096',
             ],
             trans('productValidation.messages'),
@@ -82,6 +86,8 @@ class ProductPageController extends Controller
         $cred = [
             "name" => $request->name,
             "quantity" => $request->quantity,
+            "price" => $request->price,
+            "cost" => $request->cost,
             "description" => $request->description,
         ];
 
@@ -92,6 +98,27 @@ class ProductPageController extends Controller
             Storage::disk('local')->put('public/uploads/' . $fileName, file_get_contents($file));
             $cred['thumbnail'] = $fileName;
         }
+
+        if ($request->quantity > $model->quantity) {
+            ProductLog::create([
+                'user_id' => Auth::id(),
+                'action' => "import",
+                'details' => "Chỉnh Sửa Sản Phẩm",
+                'quantity' => $request->quantity - $model->quantity,
+                'product_id' => $model->id,
+            ]);
+        }
+
+        if ($request->quantity < $model->quantity) {
+            ProductLog::create([
+                'user_id' => Auth::id(),
+                'action' => "export",
+                'details' => "Chỉnh Sửa Sản Phẩm",
+                'quantity' => $model->quantity -  $request->quantity,
+                'product_id' => $model->id,
+            ]);
+        }
+
 
         $model->update($cred);
 

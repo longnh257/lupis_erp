@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Helper\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,16 +15,20 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = ['status_name', 'is_editable'];
+    protected $appends = [
+        'status_name',
+        'is_editable',
+        'revenue'
+    ];
 
     public function getIsEditableAttribute()
     {
         $user = User::find(Auth::id());
-        if (!in_array($this->status, ['COMPLETED', 'completed', 'cancel', 'CANCEL'])) {
-            return true;
+        if (!$user->checkUserRole() && !in_array($this->status, ['cancel', 'CANCEL'])) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public function user()
@@ -39,6 +44,15 @@ class Order extends Model
     public function getStatusNameAttribute()
     {
         return OrderStatus::getValue($this->status);
+    }
+
+    public function getRevenueAttribute()
+    {
+        $revenue = $this->order_items->sum(function ($item) {
+            return $item->sell_quantity * $item->sell_price;
+        });
+
+        return Helpers::currency_format($revenue);
     }
 
     public function order_items()

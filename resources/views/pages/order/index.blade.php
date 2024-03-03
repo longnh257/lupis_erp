@@ -27,11 +27,6 @@
     <!-- row opened -->
     <div class="row">
         <div class="col-md-12 col-lg-12 col-xl-12 mb-2">
-            @if (session('success'))
-            <div class="alert alert-success">
-                {!! session('success')!!}
-            </div>
-            @endif
         </div>
         <div class="col-md-12 col-lg-12 col-xl-12" id="list-data">
             <div class="card card-table">
@@ -90,58 +85,62 @@
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">
                                 <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
+                                    <div>
                                         <div class="gridjs-th-content">ID</div>
-                                        
+
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
+                                    <div>
                                         <div class="gridjs-th-content">Nhân viên</div>
-                                        
+
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
+                                    <div>
                                         <div class="gridjs-th-content">Status</div>
-                                        
+
                                     </div>
                                 </th>
 
                                 <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Ngày tạo đơn</div>
-                                        
+                                    <div>
+                                        <div class="gridjs-th-content">Doanh Thu</div>
                                     </div>
                                 </th>
+
                                 <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
+                                    <div>
                                         <div class="gridjs-th-content">Note</div>
-                                        
+
                                     </div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort " style="max-width:200px"></th>
-                                <th class="gridjs-th gridjs-th-sort "></th>
+
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div>
+                                        <div class="gridjs-th-content">Ngày tạo đơn</div>
+
+                                    </div>
+                                </th>
+                                <th class="gridjs-th gridjs-th-sort"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
-                                <td class="fw-medium">((item.id))</td>
+                                <td class="fw-medium"> <a :href="`{{asset('order')}}/edit/`+item.id">#((item.id)) </a></td>
                                 <td>((item.assigned_user?.name))</td>
                                 <td class="">
                                     ((item.status_name))
                                 </td>
-
-                                <td>((item.order_date))</td>
+                                <td>((item.revenue))</td>
                                 <td>((item.note))</td>
-                                <td style="max-width:200px">
-                                    <a :href="`{{asset('order')}}/edit/`+item.id" class="btn btn-success btn--small d-block mt-2" v-if="item.is_editable"> Chốt Đơn</a>
-                                </td>
+                                <td>((item.order_date))</td>
+
                                 <td>
                                     <div class="hstack gap-2 ">
-                                        <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
+                                        <a :href="`{{asset('order')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
                                         <form :action="`{{asset('order')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
                                             @method('DELETE')
                                             @csrf
@@ -219,7 +218,21 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-    var options = {}
+    var options = {
+        durations: {
+            alert: 0,
+            warning: 0,
+            success: 2000,
+        },
+        labels: {
+            alert: 'Lỗi',
+            warning: 'Chú Ý',
+            success: 'Thành Công',
+        },
+        icons: {
+            enabled: false
+        }
+    }
     var notifier = new AWN(options);
 
     new Vue({
@@ -336,4 +349,36 @@
         },
     });
 </script>
+
+
+
+@if (session('changePasswordAlert'))
+<script>
+    notifier.warning(`{{ session('changePasswordAlert') }}`);
+</script>
+@endif
+
+@if ($errors->any())
+<script>
+    let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+    notifier.alert(alertMessage);
+</script>
+@endif
+
+@if (session('error'))
+<script>
+    notifier.alert(`{{ session('error') }}`);
+</script>
+@endif
+
+@if (session('success'))
+<script>
+    notifier.success(`{{ session('success') }}`);
+</script>
+@endif
 @endsection

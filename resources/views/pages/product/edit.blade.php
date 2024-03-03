@@ -16,7 +16,7 @@
 @if ($errors->any())
 @foreach ($errors->all() as $error)
 <div class="alert alert-danger mx-4" role="alert">
-   {!! $error !!}
+    {!! $error !!}
 </div>
 @endforeach
 @endif
@@ -40,7 +40,7 @@
                             <label class="form-label ">Hình ảnh</label>
                             <br>
                             @if($model->thumbnail)
-                            <img src="{{$model->thumbnail_url}}"  alt="" style="object-fit:contain; max-height:300px">
+                            <img src="{{$model->thumbnail_url}}" alt="" style="object-fit:contain; max-height:300px">
                             @endif
                             <input type="file" class="form-control" name="file" placeholder="Hình ảnh" aria-label="file">
                         </div>
@@ -56,7 +56,12 @@
                         </div>
 
                         <div class="col-md-6 mb-3 ">
-                            <label class="form-label ">Đơn Giá</label>
+                            <label class="form-label ">Giá Gốc</label>
+                            <input type="number" class="form-control" value="{{$model->cost }}" name="cost" placeholder="Đơn Giá" aria-label="cost">
+                        </div>
+
+                        <div class="col-md-6 mb-3 ">
+                            <label class="form-label ">Giá Bán</label>
                             <input type="number" class="form-control" value="{{$model->price }}" name="price" placeholder="Đơn Giá" aria-label="price">
                         </div>
 

@@ -55,6 +55,13 @@
     gap: 10px;
 }
 
+.country-table th,
+.country-table td,
+.country-table .gridjs-th-content {
+    border-right: none !important;
+    border-left: none !important;
+    text-align: center !important;
+}
 .prod-log-import {
     color: rgb(68, 233, 68);
 }
@@ -73,9 +80,14 @@
     white-space: wrap !important;
 }
 
-
 .fc-more-link:hover {
     color: blue;
     text-decoration: underline;
 }
 
+.flex-1 {
+    flex: 1;
+}
+.flex-0 {
+    flex: 0;
+}

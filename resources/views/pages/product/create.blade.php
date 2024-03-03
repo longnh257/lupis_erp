@@ -28,7 +28,7 @@
     @if ($errors->any())
     @foreach ($errors->all() as $error)
     <div class="alert alert-danger mx-4" role="alert">
-       {!! $error !!}
+        {!! $error !!}
     </div>
     @endforeach
     @endif
@@ -51,11 +51,17 @@
                         <label class="form-label ">Số Lượng</label>
                         <input type="number" class="form-control" value="{{ old('quantity') }}" name="quantity" placeholder="Số Lượng" aria-label="quantity">
                     </div>
+
                     <div class="col-md-6 mb-3 ">
-                        <label class="form-label ">Đơn Giá</label>
+                        <label class="form-label ">Giá Gốc</label>
+                        <input type="number" class="form-control" value="{{ old('cost') }}" name="cost" placeholder="Đơn Giá" aria-label="cost">
+                    </div>
+
+                    <div class="col-md-6 mb-3 ">
+                        <label class="form-label ">Giá Bán</label>
                         <input type="number" class="form-control" value="{{ old('price') }}" name="price" placeholder="Đơn Giá" aria-label="price">
                     </div>
-                   
+
                     <div class="col-md-6 mb-3 ">
                         <label class="form-label ">Mô tả</label>
                         <textarea type="number" class="form-control" name="description" placeholder="Mô tả" aria-label="description">{{ old('description') }}</textarea>

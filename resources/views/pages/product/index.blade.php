@@ -55,25 +55,37 @@
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">ID</div>
-                                        
+
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort " style="width:80px">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Hình Ảnh</div>
-                                        
+
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Tên</div>
-                                        
+
                                     </div>
                                 </th>
                                 <th class="gridjs-th gridjs-th-sort ">
                                     <div class="flex-between-center">
                                         <div class="gridjs-th-content">Số Lượng</div>
-                                        
+
+                                    </div>
+                                </th>
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div class="flex-between-center">
+                                        <div class="gridjs-th-content">Giá Gốc</div>
+
+                                    </div>
+                                </th>
+                                <th class="gridjs-th gridjs-th-sort ">
+                                    <div class="flex-between-center">
+                                        <div class="gridjs-th-content">Giá Bán</div>
+
                                     </div>
                                 </th>
 
@@ -87,6 +99,8 @@
                                 <td style="width:120px"><img :src="item.thumbnail_url" alt="" style="object-fit:cover; width:80px; height:80px;"></img></td>
                                 <td>((item.name))</td>
                                 <td>((item.quantity))</td>
+                                <td>((item.cost))</td>
+                                <td>((item.price))</td>
                                 <td style="width:120px">
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('product')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
@@ -167,7 +181,21 @@
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-    var options = {}
+     var options = {
+        durations: {
+            alert: 0,
+            warning: 0,
+            success: 2000,
+        },
+        labels: {
+            alert: 'Lỗi',
+            warning: 'Chú Ý',
+            success: 'Thành Công',
+        },
+        icons: {
+            enabled: false
+        }
+    }
     var notifier = new AWN(options);
 
     new Vue({
@@ -268,4 +296,35 @@
         },
     });
 </script>
+
+
+@if (session('changePasswordAlert'))
+<script>
+    notifier.warning(`{{ session('changePasswordAlert') }}`);
+</script>
+@endif
+
+@if ($errors->any())
+<script>
+    let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+    notifier.alert(alertMessage);
+</script>
+@endif
+
+@if (session('error'))
+<script>
+    notifier.alert(`{{ session('error') }}`);
+</script>
+@endif
+
+@if (session('success'))
+<script>
+    notifier.success(`{{ session('success') }}`);
+</script>
+@endif
 @endsection

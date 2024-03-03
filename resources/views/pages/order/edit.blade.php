@@ -30,71 +30,100 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="card custom-card">
-                    <div class="card-header justify-content-between">
-                        <div class="card-title">
-                            Thông Tin Đơn Hàng
-                        </div>
-
+                    <div class=" p-4 pb-2">
+                        <h4 class=" text-center">
+                            Thông Tin Đơn Hàng #{{$model->id}}
+                        </h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3 ">
-                                <label class="form-label required">Nhân viên nhận đơn</label>
-                                <input type="text" class="form-control" name="note" value="{{$model->assigned_user->name}}" placeholder="Ghi chú" disabled aria-label="note" />
-                            </div>
-
-                            <div class="col-md-6 mb-3 ">
-                                <label class="form-label ">Ghi chú</label>
-                                <textarea type="number" class="form-control" name="note" placeholder="Ghi chú" aria-label="note">{{$model->note}}</textarea>
-                            </div>
-
-                            <span class="mb-0">Chốt đơn</span>
-                            <table class="table table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table">
-                                <thead class="gridjs-thead">
-                                    <tr class="gridjs-tr">
-
-                                        <th class="gridjs-th gridjs-th-sort ">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content">Sản Phẩm</div>
-                                            </div>
-                                        </th>
-
-                                        <th class="gridjs-th gridjs-th-sort">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content">Số Lượng</div>
-                                            </div>
-                                        </th>
-
-                                        <th class="gridjs-th gridjs-th-sort">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content required">Đã Bán</div>
-                                            </div>
-                                        </th>
-
-                                    </tr>
-                                </thead>
+                        <div class="table-wrapper">
+                            <table class="c-table">
                                 <tbody>
-                                    @foreach($model->order_items as $item)
                                     <tr>
-                                        <td>
-                                            {{$item->product->name}}
-                                        </td>
-                                        <td>
-                                            {{$item->quantity}}
-                                        </td>
-                                        <td>
-                                            <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->quantity}}" class="form-control" value="{{$item->quantity}}">
-                                        </td>
-
+                                        <th><span> Nhân viên nhận đơn:</span></th>
+                                        <td><span>{{$model->assigned_user->name}}</span></td>
                                     </tr>
-                                    @endforeach
-
+                                    <tr>
+                                        <th><span> Ngày:</span></th>
+                                        <td><span>{{$model->order_date}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span> Trạng thái:</span></th>
+                                        <td><span>{{$model->status_name}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th> <span>Ghi chú:</span></th>
+                                        <td> <textarea type="number" class="w-100" name="note" placeholder="Ghi chú" aria-label="note">{{$model->note}}</textarea></td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            <div class="col-md-12 mt-3">
-                                <button type="submit" class="btn btn-primary">Chốt</button>
-                            </div>
+                        </div>
+                        <table class="country-table table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div>
+                                            <div>Sản Phẩm</div>
+                                        </div>
+                                    </th>
+
+                                    <th>
+                                        <div>
+                                            <div>Số Lượng</div>
+                                        </div>
+                                    </th>
+
+                                    <th>
+                                        <div>
+                                            <div class="required">Đã Bán</div>
+                                        </div>
+                                    </th>
+
+                                    <th>
+                                        <div>
+                                            <div>Đơn giá</div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <div>Tổng</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($model->order_items as $key => $item)
+                                <tr>
+                                    <td>
+                                        #{{$key + 1}} &nbsp;
+                                        {{$item->product->name}}
+                                    </td>
+                                    <td>
+                                        {{$item->quantity}}
+                                    </td>
+                                    <td>
+                                        <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->sell_quantity}}" value="{{$item->sell_quantity}}" class="underline-input ">
+                                    </td>
+                                    <td>
+                                        {{$item->sell_price_format}}
+                                    </td>
+                                    <td>
+                                        {{$item->revenue_format}}
+                                    </td>
+                                </tr>
+                                @endforeach
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-end"><strong>Tổng Doanh Thu:</strong></td>
+                                    <td><span>{{$model->revenue}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 mt-3">
+                            <button type="submit" class="btn btn-primary w-100">Chốt</button>
                         </div>
                     </div>
                     <div class="card-footer d-none border-top-0">
@@ -105,8 +134,45 @@
         </div>
     </form>
 
+    <style>
+        .underline-input {
+            border: none;
+            border-bottom: solid #cacaca 1px;
+            width: fit-content !important;
+            text-align: center;
+            max-width: fit-content !important;
+        }
 
+        .underline-input:focus {
+            outline: none !important;
+        }
 
+        .table-wrapper {
+            border-bottom: dashed 1px #cacaca;
+            margin-bottom: 2.5rem;
+        }
+
+        table.c-table {
+            width: 100%;
+        }
+
+        table.c-table tr {
+            border-bottom: 12px solid transparent;
+            line-height: 1.5rem;
+        }
+
+        table.c-table>tbody>tr>th {
+            white-space: nowrap;
+            width: 1px;
+            border-right: 24px solid transparent;
+            vertical-align: baseline;
+        }
+
+        table.c-table>tbody>tr>td {
+            white-space: nowrap;
+            width: auto;
+        }
+    </style>
     @endsection
 
     @section('script-footer')

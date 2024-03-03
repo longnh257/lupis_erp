@@ -20,7 +20,7 @@ class ProductLogController extends Controller
             $query->where("name", "LIKE", "%" . $s . "%");
         }
 
-        $datas = $query->with('user', 'product');
+        $datas = $query->with('user', 'product')->orderBy('created_at', 'desc');
         $datas = $query->paginate($this->numPerPage);
 
         return $this->hasSuccess('Lấy danh sách vật liệu thành công!', $datas);

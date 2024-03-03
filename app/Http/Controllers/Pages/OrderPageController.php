@@ -45,14 +45,14 @@ class OrderPageController extends Controller
             trans('orderValidation.attributes'),
         );
 
-        $collection = collect($request->attr);
+        $collection = collect($request->products);
 
         // Sử dụng filter để loại bỏ các sản phẩm có quantity = 0 hoặc không có quantity
         $filteredCollection = $collection->filter(function ($item) {
             return isset($item['quantity']) && (int)$item['quantity'] !== 0;
         });
 
-        $result = $filteredCollection->groupBy('product_id')->mapWithKeys(function ($group, $productId) {
+        $result = $filteredCollection->groupBy('id')->mapWithKeys(function ($group, $productId) {
             return [$productId => $group->sum('quantity')];
         });
 
@@ -69,12 +69,14 @@ class OrderPageController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', "Vui lòng nhập sản phẩm cho đơn hàng.");
         } else {
-            foreach ($resultArray as $product_id => $quantity) {
-                $product = Product::find($product_id);
+            foreach ($resultArray as $id => $quantity) {
+                $product = Product::find($id);
                 if ($product->quantity >=  $quantity) {
                     $item = OrderItem::create([
                         'order_id' => $order->id,
-                        'product_id' => $product_id,
+                        'sell_price' => $product->price,
+                        'cost' => $product->cost,
+                        'product_id' => $id,
                         'quantity' => $quantity,
                     ]);
 
@@ -88,7 +90,7 @@ class OrderPageController extends Controller
                         'action' => "export",
                         'details' => "Xuất Kho",
                         'quantity' => $quantity,
-                        'product_id' => $product_id,
+                        'product_id' => $id,
                     ]);
                 } else {
                     DB::rollBack();
@@ -153,7 +155,7 @@ class OrderPageController extends Controller
 
     public function staff_update(Order $model, Request $request)
     {
-        if (!$model->staff_updated) {
+        if (!$model->status != 'in_progress') {
             $request->validate(
                 [
                     'sell_quantity.*' => 'numeric',
