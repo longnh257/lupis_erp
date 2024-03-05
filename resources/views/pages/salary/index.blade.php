@@ -109,12 +109,10 @@ $current_user = Auth::user();
                                 </th>
 
                                 <th>
-
                                     <div>Ngày thanh toán</div>
                                 </th>
 
                                 <th>
-
                                     <div>Số tiền:</div>
                                 </th>
 
@@ -141,7 +139,7 @@ $current_user = Auth::user();
                                 </td>
                                 <td>
                                     <div class="hstack gap-2 ">
-                                        <a :href="`{{asset('salary')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
+                                        <a :href="`{{asset('salary')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
                                         <form :action="`{{asset('salary')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
                                             @method('DELETE')
                                             @csrf
@@ -375,6 +373,7 @@ $current_user = Auth::user();
             },
             resetFilter() {
                 this.user_name = '';
+                this.salary_month = '';
                 this.status = '';
                 this.created_at = '';
                 this.onLoadPagination()

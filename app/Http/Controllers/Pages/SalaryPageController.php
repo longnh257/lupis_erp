@@ -151,11 +151,11 @@ class SalaryPageController extends Controller
 
         $model->update([
             'note' => $request->note,
-            'status' => 'completed',
+            'status' => '1',
         ]);
 
         return redirect()->route('view.salary.index')
-            ->with('success', 'Chốt đơn thành công!');
+            ->with('success', 'Chốt thành công!');
     }
 
     public function staff_update(SalaryDetail $model, Request $request)

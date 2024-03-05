@@ -62,7 +62,7 @@
                                         <div>Số đơn hàng trong tháng</div>
                                     </th>
                                     <th>
-                                        <div>Lợi nhuận</div>
+                                        <div>Doanh Thu</div>
                                     </th>
                                     <th>
                                         <div>Lương</div>
@@ -100,9 +100,9 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- <div class="col-md-12 mt-3">
+                        <div class="col-md-12 mt-3">
                             <button type="submit" class="btn btn-primary w-100">Chốt</button>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="card-footer d-none border-top-0">
                     </div>

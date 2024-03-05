@@ -5,6 +5,8 @@ return [
         //user validate
         'name' => 'Tên sản phẩm',
         'quantity' => 'Số lượng',
+        'price' => 'Giá',
+        'cost' => 'Giá gốc',
         //end user validate
     ],
     'messages' => [
