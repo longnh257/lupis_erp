@@ -141,7 +141,7 @@ $current_user = Auth::user();
                                 <td class="">
                                     ((item.status_name))
                                 </td>
-                                <td> <span class="status-success"> ((item.revenue))</span></td>
+                                <td> <span class="status-success"> ((item.revenue_format))</span></td>
                                 <td>((item.note))</td>
                                 <td>((item.order_date))</td>
 

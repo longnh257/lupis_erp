@@ -113,20 +113,21 @@ class SalaryPageController extends Controller
             $salary = ((float)$revenue * (float)$revenue_percentage) / 100;
             $bonus = 0;
             $total_salary = $salary + $bonus;
-
-            $user->salary_details()->create([
-                'salary_month' => $request->month,
-                'revenue_percentage' => $revenue_percentage,
-                'revenue' => $revenue,
-                'salary_type' => $salary_type,
-                'salary' => $salary,
-                'bonus' => $bonus,
-                'order_count' => $order_count,
-                'total_salary' => $total_salary,
-                'payday' => $request->payday,
-            ]);
+            if ($total_salary > 0) {
+                $user->salary_details()->create([
+                    'salary_month' => $request->month,
+                    'revenue_percentage' => $revenue_percentage,
+                    'revenue' => $revenue,
+                    'salary_type' => $salary_type,
+                    'salary' => $salary,
+                    'bonus' => $bonus,
+                    'order_count' => $order_count,
+                    'total_salary' => $total_salary,
+                    'payday' => $request->payday,
+                ]);
+            }
         }
-      
+
         // Start a database transaction
 
         return redirect()->route('view.salary.index')
@@ -160,33 +161,19 @@ class SalaryPageController extends Controller
 
     public function staff_update(SalaryDetail $model, Request $request)
     {
-        if (!$model->staff_updated) {
-            $request->validate(
-                [
-                    'sell_quantity.*' => 'numeric',
-                ],
-                trans('salaryValidation.messages'),
-                trans('salaryValidation.attributes'),
-            );
-        } else {
-            $model->update([
-                'note' => $request->note,
-            ]);
-        }
+
+        $model->update([
+            'note' => $request->note,
+        ]);
 
         return redirect()->route('view.salary.index')
-            ->with('success', 'Cập nhật thành công, vui lòng đợi quản lý xét duyệt!<br>
-            Lưu ý, Đơn hàng này đã được chôt, bạn không thể sửa số lượng đã bán, 
-            nếu có vấn đề vui lòng liên hệ Quản Lý');
+            ->with('success', 'Cập nhật thành công');
     }
 
 
     public function destroy(SalaryDetail $model)
     {
-        if ($model->status != 1) {
-            $model->delete();
-            return redirect()->route('view.salary.index')->with('success', 'Xóa Thành Công!');
-        }
-        return redirect()->route('view.salary.index')->with('error', 'Không thể xóa bảng lương đã Hoàn Thành');
+        $model->delete();
+        return redirect()->route('view.salary.index')->with('success', 'Xóa Thành Công!');
     }
 }

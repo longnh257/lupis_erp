@@ -20,6 +20,8 @@ class OrderItem extends Model
         'cost_format',
         'revenue_format',
     ];
+    
+    protected $with = ['product'];
 
     public function order()
     {

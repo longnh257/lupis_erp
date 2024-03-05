@@ -10,9 +10,9 @@
 <!-- End Page Header -->
 
 @if(in_array(Auth::user()->role->name, ['superadmin', 'manager']))
-<form action="{{route('view.order.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
+<form action="{{route('view.salary.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
     @else
-    <form action="{{route('view.order.staff-update',$model->id)}}" @if($model->status == 'in_progress') id="userForm" @endif method="post" enctype="multipart/form-data" class="container-fluid">
+    <form action="{{route('view.salary.staff-update',$model->id)}}" @if($model->status == 'in_progress') id="userForm" @endif method="post" enctype="multipart/form-data" class="container-fluid">
         @endif
         @csrf
         @method('PUT')

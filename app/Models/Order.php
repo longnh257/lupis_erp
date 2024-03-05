@@ -18,7 +18,8 @@ class Order extends Model
     protected $appends = [
         'status_name',
         'is_editable',
-        'revenue'
+        'revenue',
+        'revenue_format'
     ];
 
     public function getIsEditableAttribute()

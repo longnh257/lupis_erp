@@ -102,7 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create', [SalaryPageController::class, 'create'])->name('view.salary.create');
         Route::post('/', [SalaryPageController::class, 'store'])->name('view.salary.store');
         Route::get('/edit/{model}', [SalaryPageController::class, 'edit'])->name('view.salary.edit');
-        Route::put('/{model}', [SalaryPageController::class, 'update'])->name('view.salary.update');
+        Route::put('/{model}', [SalaryPageController::class, 'update'])->name('view.salary.update')->middleware('checkRole:superadmin,manager');
         Route::put('/staff-update/{model}', [SalaryPageController::class, 'staff_update'])->name('view.salary.staff-update');
         Route::delete('/{model}', [SalaryPageController::class, 'destroy'])->name('view.salary.destroy')->middleware('checkRole:superadmin,manager');
     });

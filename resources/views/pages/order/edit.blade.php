@@ -21,7 +21,7 @@
         @csrf
         @method('PUT')
 
-        <div class="row">
+        <div class="row" id="app" data-orderItems="{{$model->order_items}}">
             <div class="col-xl-6">
                 <div class="card custom-card">
                     @if($model->status != 'in_progress')
@@ -84,29 +84,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($model->order_items as $key => $item)
-                                <tr>
+                                <tr v-for="item in orderItems">
                                     <td>
-                                        #{{$key + 1}} &nbsp;
-                                        {{$item->product->name}}
+                                        ((item.product?.name))
                                     </td>
                                     <td>
-                                        {{$item->quantity}}
+                                        ((item.quantity))
                                     </td>
                                     <td>
-                                        <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->quantity}}" value="{{$item->sell_quantity}}" class="underline-input text-success">
+                                        <input type="number" step="0.1" :name="`sell_quantity[${item.id}]`" v-model="item.sell_quantity" @change="checkMax(item)" class="underline-input text-success">
                                     </td>
                                     <td>
-                                        <span class="text-danger"> {{ number_format($item->quantity - $item->sell_quantity, 2, '.', ',') }}</span>
+                                        <span class="text-danger"> (( currencyFormat(item.quantity - item.sell_quantity) ))</span>
                                     </td>
                                     <td>
-                                        {{$item->sell_price_format}}
+                                        (( currencyFormat(item.sell_price_format) ))
                                     </td>
                                     <td>
-                                        {{$item->revenue_format}}
+                                        (( currencyFormat(item.sell_quantity * item.sell_price) ))đ
                                     </td>
                                 </tr>
-                                @endforeach
 
                                 <tr>
                                     <td></td>
@@ -114,7 +111,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="text-end"><strong>Tổng Doanh Thu:</strong></td>
-                                    <td><span class="text-success">{{$model->revenue}}</span></td>
+                                    <td><span class="text-success">(( currencyFormat( sumSalary(orderItems) ) ))đ</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -128,7 +125,6 @@
             </div>
         </div>
     </form>
-
     <style>
         .underline-input {
             border: none;
@@ -221,6 +217,56 @@
     </script>
 
 
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                orderItems: [],
+                offices: [],
+                selectedCompany: ""
+            },
+            delimiters: ["((", "))"],
+            mounted() {
+                const orderItems = this.$el.getAttribute('data-orderItems')
+                console.log(orderItems);
+                this.orderItems = JSON.parse(orderItems)
+            },
+            computed: {},
+
+            methods: {
+                currencyFormat(number) {
+                    if (number !== null && number !== undefined && !isNaN(number)) {
+                        return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    }
+                    return '0 ';
+                },
+                sumSalary() {
+                    let sum = 0;
+                    this.orderItems.map((item) => {
+                        sum += parseInt(item.sell_quantity) * parseInt(item.sell_price);
+                    });
+                    return sum;
+                },
+
+                checkMax(item) {
+                    let sellQuantity = parseFloat(item.sell_quantity);
+
+                    console.log(sellQuantity);
+                    if (isNaN(sellQuantity)) {
+                        item.sell_quantity = '';
+                        return;
+                    }
+
+                    // Limit to two decimal places
+                    item.sell_quantity = sellQuantity.toFixed(2);
+
+                    if (parseFloat(item.sell_quantity) > parseFloat(item.quantity)) {
+                        item.sell_quantity = item.quantity
+                    }
+                }
+            },
+        });
+    </script>
 
     @if (session('changePasswordAlert'))
     <script>
