@@ -3,6 +3,15 @@
 @section('title', 'Product')
 
 @section('content')
+
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$current_user = Auth::user();
+?>
+
 <div class="container-fluid" id="App">
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
@@ -28,41 +37,42 @@
 
     <!-- row opened -->
     <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12 mb-2">
-            @if (session('success'))
-            <div class="alert alert-success">
-                {!! session('success')!!}
-            </div>
-            @endif
-        </div>
+
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card card-table">
                 <div class=" card-header p-0 d-flex justify-content-between mb-2">
                     <div class="card-title">
-                        Danh Sách Đơn Hàng
+                        Bảng Lương
                     </div>
                 </div>
                 <form action="" @submit.prevent="filterList">
                     <div class="d-flex flex-rows gap-3 bsalary p-3 mb-3 pb-0 shadow-sm">
 
+                        @if($current_user->checkUserRole())
                         <div class="form-group col w-auto" style="max-width:220px">
                             <label for="staffs" class="mb-2 fw-bold">Nhân viên: </label>
                             <input type="text" step="0.1" v-model="user_name" class="form-control ">
                         </div>
+                        @endif
+
+                        <div class=" form-group col w-auto" style="max-width:220px">
+                            <label for="staffs" class="mb-2 fw-bold">Tháng: </label>
+                            <input type="month" class="form-control" v-model="salary_month">
+                        </div>
+
                         <div class="form-group col w-auto" style="max-width:220px">
                             <label for="staffs" class="mb-2 fw-bold">Trạng thái đơn hàng: </label>
                             <select class="form-control" name="" v-model="status" id="">
                                 <option value="">Chọn Trạng Thái</option>
-                                <option value="completed">Hoàn thành</option>
-                                <option value="in_progress">Đang Xử Lý</option>
-                                <option value="pending">Đợi duyệt</option>
-                                <option value="cancel">Bị hủy</option>
+                                <option value="1">Hoàn thành</option>
+                                <option value="0">Đang Xử Lý</option>
+                                <option value="2">Bị hủy</option>
                             </select>
                         </div>
-                        <div class="form-group col w-auto" style="max-width:220px">
+                        <!--    <div class="form-group col w-auto" style="max-width:220px">
                             <label for="staffs" class="mb-2 fw-bold">Ngày tạo đơn: </label>
                             <input type="date" v-model="created_at" class="form-control ">
-                        </div>
+                        </div> -->
 
                         <div class="form-group col w-auto align-self-end d-flex gap-3">
                             <button class=" btn btn-primary " type="submit" @click="filterList">
@@ -83,52 +93,48 @@
                     <table class="table table-striped table-bordered mb-0 text-nowrap gridjs-table ">
                         <thead class="gridjs-thead">
                             <tr class="gridjs-tr">
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">ID</div>
+                                <th>
 
-                                    </div>
+                                    <div>ID</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Nhân viên</div>
+                                <th>
 
-                                    </div>
+                                    <div>Nhân viên</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Status</div>
+                                <th>
 
-                                    </div>
+                                    <div>Trạng thái</div>
                                 </th>
 
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Ngày tạo đơn</div>
+                                <th>
 
-                                    </div>
+                                    <div>Ngày thanh toán</div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort ">
-                                    <div class="flex-between-center">
-                                        <div class="gridjs-th-content">Note</div>
 
-                                    </div>
+                                <th>
+
+                                    <div>Số tiền:</div>
                                 </th>
-                                <th class="gridjs-th gridjs-th-sort " style="max-width:200px"></th>
-                                <th class="gridjs-th gridjs-th-sort "></th>
+
+                                <th>
+
+                                    <div>Note</div>
+                                </th>
+                                <th style="max-width:200px"></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in list" :key="item.id">
                                 <td class="fw-medium">((item.id))</td>
-                                <td>((item.assigned_user?.name))</td>
+                                <td>((item.user?.name))</td>
                                 <td class="">
                                     ((item.status_name))
                                 </td>
-
-                                <td>((item.salary_date))</td>
+                                <td>((item.payday))</td>
+                                <td>((item.total_salary_format))</td>
                                 <td>((item.note))</td>
                                 <td style="max-width:200px">
                                     <a :href="`{{asset('salary')}}/edit/`+item.id" class="btn btn-success btn--small d-block mt-2" v-if="item.is_editable"> Chốt Đơn</a>
@@ -194,10 +200,10 @@
 
 
     <div class="modal fade" id="salaryModal" aria-labelledby="salaryModal" aria-hidden="true">
-        <form action="{{asset(route('view.salary.store'))}}" method="POST">
-            @csrf
-            <div class="modal-dialog">
-                <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{asset(route('view.salary.store'))}}" method="POST">
+                    @csrf
                     <div class="modal-header">
                         <h6 class="modal-title" id="exampleModalLabel">Tính lương </h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -205,31 +211,31 @@
                     <div class="modal-body py-0">
 
                         <div class="mb-2 mt-3">
-                            <label for="input-month" class="form-label">Tháng</label>
-                            <input type="month" name="month" class="form-control" id="input-month">
+                            <label for="input-month" class="form-label required">Tháng</label>
+                            <input type="month" name="month" class="form-control" id="input-month" required>
                         </div>
 
                         <div class="mb-2 mt-3">
-                            <label for="input-month" class="form-label">Ngày phát lương</label>
-                            <input type="date" name="payday" class="form-control">
+                            <label for="input-month" class="form-label required">Ngày phát lương</label>
+                            <input type="date" name="payday" class="form-control" required>
                         </div>
-
+                        <!-- 
                         <div class="mb-2 mt-3">
                             <label for="shift" class="col-form-label">Nhân Viên</label>
-                            <select type="date" class="form-control">
+                            <select type="date" class="form-control" disabled>
                                 <option value="all">Toàn bộ nhân viên</option>
                             </select>
-                        </div>
+                        </div> -->
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary" action="/event">Cập nhật</button>
+                        <button type="submit" class="btn btn-primary" action="/event">Tính Lương</button>
                     </div>
-                </div>
             </div>
-        </form>
+        </div>
     </div>
+    </form>
 </div>
 
 
@@ -247,18 +253,20 @@
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script>
-/*     var currentDate = new Date();
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    var formattedDate = currentDate.toISOString().slice(0, 7);
-    console.log(formattedDate);
-    document.getElementById("input-month").setAttribute("max", formattedDate); */
+    $(document).ready(function() {
+        var currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        var formattedDate = currentDate.toISOString().slice(0, 7);
+        $("#input-month").val(formattedDate);
+        /*   $("#input-month").attr("max", formattedDate); */
+    });
 </script>
 
 
 <script type="text/javascript">
     var CSRF_TOKEN = jQuery('meta[name="csrf-token"]').attr('content');
     var S_HYPEN = "-";
-     var options = {
+    var options = {
         durations: {
             alert: 0,
             warning: 0,
@@ -283,6 +291,7 @@
             count: 0,
             page: 1,
             user_name: '',
+            salary_month: '',
             status: '',
             created_at: '',
             list: [],
@@ -327,6 +336,7 @@
                 conditionSearch += '&sortBy=' + this.sortBy;
                 conditionSearch += '&sortDirection=' + this.sortDirection;
                 conditionSearch += '&user_name=' + this.user_name;
+                conditionSearch += '&salary_month=' + this.salary_month;
                 conditionSearch += '&status=' + this.status;
                 conditionSearch += '&created_at=' + this.created_at;
                 this.conditionSearch = conditionSearch;
@@ -391,4 +401,34 @@
         },
     });
 </script>
+
+@if (session('changePasswordAlert'))
+<script>
+    notifier.warning(`{{ session('changePasswordAlert') }}`);
+</script>
+@endif
+
+@if ($errors->any())
+<script>
+    let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+    notifier.alert(alertMessage);
+</script>
+@endif
+
+@if (session('error'))
+<script>
+    notifier.alert(`{{ session('error') }}`);
+</script>
+@endif
+
+@if (session('success'))
+<script>
+    notifier.success(`{{ session('success') }}`);
+</script>
+@endif
 @endsection

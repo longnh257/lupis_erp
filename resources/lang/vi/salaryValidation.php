@@ -3,16 +3,15 @@
 return [
     'attributes' => [
         //user validate
-        'user_id' => 'Nhân viên',
-        'assigned_to' => 'Nhân viên',
-        'event_date' => 'Ngày đăng ký',
-        'event_type' => 'Loại',
-        'shift' => 'Ca',
+        'month' => 'Tháng',
+        'payday' => 'Ngày thanh toán',
+        'quantity' => 'Số lượng',
         //end user validate
     ],
     'messages' => [
         //user validate
         'unique' => ':attribute đã tồn tại.',
+        'month.required' => 'Hãy chọn một tháng để tính lương!',
         'required' => ':attribute là trường bắt buộc, không được để trống.',
         'max' => ':attribute không được quá :max ký tự',
         'min' => ':attribute không được ít hơn :min ký tự',

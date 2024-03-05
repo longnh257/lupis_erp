@@ -5,108 +5,151 @@
 @section('content')
 
 <!-- Page Header -->
-<div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-    <div>
-        <h4 class="mb-0">Chỉnh sửa đơn hàng</h4>
-        <p class="mb-0 text-muted">Chỉnh sửa đơn hàng, chốt đơn</p>
-    </div>
+<div class="d-md-flex d-block align-items-center justify-content-between my-4 mx-3 page-header-breadcrumb">
 </div>
 <!-- End Page Header -->
 
-@if ($errors->any())
-@foreach ($errors->all() as $error)
-<div class="alert alert-danger mx-4" role="alert">
-    {!! $error !!}
-</div>
-@endforeach
-@endif
 @if(in_array(Auth::user()->role->name, ['superadmin', 'manager']))
-<form action="{{route('view.salary.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
+<form action="{{route('view.order.update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
     @else
-    <form action="{{route('view.salary.staff-update',$model->id)}}" method="post" enctype="multipart/form-data" class="container-fluid">
+    <form action="{{route('view.order.staff-update',$model->id)}}" @if($model->status == 'in_progress') id="userForm" @endif method="post" enctype="multipart/form-data" class="container-fluid">
         @endif
         @csrf
         @method('PUT')
+
         <div class="row">
             <div class="col-xl-6">
                 <div class="card custom-card">
-                    <div class="card-header justify-content-between">
-                        <div class="card-title">
-                            Thông Tin Đơn Hàng
-                        </div>
-
+                    <div class=" p-4 pb-2">
+                        <h4 class=" text-center">
+                            Chi Tiết Lương
+                        </h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3 ">
-                                <label class="form-label required">Nhân viên nhận đơn</label>
-                                <input type="text" class="form-control" name="note" value="{{$model->assigned_user->name}}" placeholder="Ghi chú" disabled aria-label="note" />
-                            </div>
-
-                            <div class="col-md-6 mb-3 ">
-                                <label class="form-label ">Ghi chú</label>
-                                <textarea type="number" class="form-control" name="note" placeholder="Ghi chú" aria-label="note">{{$model->note}}</textarea>
-                            </div>
-
-                            <span class="mb-0">Chốt đơn</span>
-                            <table class="table table-bordered mt-0 mb-0 mx-2 text-nowrap gridjs-table">
-                                <thead class="gridjs-thead">
-                                    <tr class="gridjs-tr">
-
-                                        <th class="gridjs-th gridjs-th-sort ">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content">Sản Phẩm</div>
-                                            </div>
-                                        </th>
-
-                                        <th class="gridjs-th gridjs-th-sort">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content">Số Lượng</div>
-                                            </div>
-                                        </th>
-
-                                        <th class="gridjs-th gridjs-th-sort">
-                                            <div class="flex-between-center">
-                                                <div class="gridjs-th-content required">Đã Bán</div>
-                                            </div>
-                                        </th>
-
-                                    </tr>
-                                </thead>
+                        <div class="table-wrapper">
+                            <table class="c-table">
                                 <tbody>
-                                    @foreach($model->salary_items as $item)
                                     <tr>
-                                        <td>
-                                            {{$item->product->name}}
-                                        </td>
-                                        <td>
-                                            {{$item->quantity}}
-                                        </td>
-                                        <td>
-                                            <input type="number" step="0.1" name="sell_quantity[{{$item->id}}]" max="{{$item->quantity}}" class="form-control" value="{{$item->quantity}}">
-                                        </td>
-
+                                        <th><span> Nhân viên:</span></th>
+                                        <td><span>{{$model->user->name}}</span></td>
                                     </tr>
-                                    @endforeach
-
+                                    <tr>
+                                        <th><span>Ngày nhận:</span></th>
+                                        <td><span>{{$model->payday}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span>Tháng:</span></th>
+                                        <td><span>{{$model->salary_month}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span> Trạng thái:</span></th>
+                                        <td><span>{{$model->status_name}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th> <span>Ghi chú:</span></th>
+                                        <td> <textarea type="number" class="w-100" name="note" placeholder="Ghi chú" aria-label="note">{{$model->note}}</textarea></td>
+                                    </tr>
                                 </tbody>
                             </table>
-                            <div class="col-md-12 mt-3">
-                                <button type="submit" class="btn btn-primary">Chốt</button>
-                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer d-none bsalary-top-0">
+                        <table class="country-table table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div>Nhân viên</div>
+                                    </th>
+                                    <th>
+                                        <div>Số đơn hàng trong tháng</div>
+                                    </th>
+                                    <th>
+                                        <div>Lợi nhuận</div>
+                                    </th>
+                                    <th>
+                                        <div>Lương</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {{$model->user?->name}}
+                                    </td>
+                                    <td>
+                                        {{$model->order_count}}
+                                    </td>
+                                    <td>
+                                        {{$model->revenue_format}}
+                                    </td>
+                                    <td>
+                                        {{$model->salary_format}}
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td class="text-end"><strong>Thưởng:</strong></td>
+                                    <td><span class="text-success">{{$model->bonus}} đ</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td class="text-end"><strong>Thực nhận:</strong></td>
+                                    <td><span class="text-success">{{$model->total_salary_format}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <div class="col-md-12 mt-3">
+                            <button type="submit" class="btn btn-primary w-100">Chốt</button>
+                        </div> -->
+                    </div>
+                    <div class="card-footer d-none border-top-0">
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
+    <style>
+        .underline-input {
+            border: none;
+            border-bottom: solid #cacaca 1px;
+            width: fit-content !important;
+            text-align: center;
+            max-width: fit-content !important;
+        }
 
+        .underline-input:focus {
+            outline: none !important;
+        }
 
+        .table-wrapper {
+            border-bottom: dashed 1px #cacaca;
+            margin-bottom: 2.5rem;
+        }
+
+        table.c-table {
+            width: 100%;
+        }
+
+        table.c-table tr {
+            border-bottom: 12px solid transparent;
+            line-height: 1.5rem;
+        }
+
+        table.c-table>tbody>tr>th {
+            white-space: nowrap;
+            width: 1px;
+            border-right: 24px solid transparent;
+            vertical-align: baseline;
+        }
+
+        table.c-table>tbody>tr>td {
+            white-space: nowrap;
+            width: auto;
+        }
+    </style>
     @endsection
 
     @section('script-footer')
@@ -116,5 +159,74 @@
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+    <script>
+        $(document).ready(function() {
+            var options = {
+                durations: {
+                    alert: 0,
+                    warning: 0,
+                    success: 2000,
+                },
+                labels: {
+                    alert: 'Lỗi',
+                    warning: 'Chú Ý',
+                    success: 'Thành Công',
+                },
+                icons: {
+                    enabled: false
+                }
+            }
+            var notifier = new AWN(options);
 
+            $("#userForm").on('submit', (event) => {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Chốt Đơn?',
+                    html: `
+                    <p>
+                    Đơn hàng sẽ được chuyển sang trạng thái <strong>'Đợi Duyệt'</strong>, số lượng hàng còn lại sẽ được nhập vào kho. 
+                    </p>
+                    <p class="text-danger"> Sau khi chốt đơn chỉ quản lý mới có thể chỉnh sửa đơn hàng của bạn! </p>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                })
+            })
+        })
+    </script>
+
+
+
+    @if (session('changePasswordAlert'))
+    <script>
+        notifier.warning(`{{ session('changePasswordAlert') }}`);
+    </script>
+    @endif
+
+    @if ($errors->any())
+    <script>
+        let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+        notifier.alert(alertMessage);
+    </script>
+    @endif
+
+    @if (session('error'))
+    <script>
+        notifier.alert(`{{ session('error') }}`);
+    </script>
+    @endif
+
+    @if (session('success'))
+    <script>
+        notifier.success(`{{ session('success') }}`);
+    </script>
+    @endif
     @endsection

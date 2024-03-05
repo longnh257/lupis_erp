@@ -23,6 +23,7 @@ class EventPageController extends Controller
             [
                 'start' => 'required|date',
                 'event_type' => 'required|string',
+                'user_id' => 'required',
             ],
             trans('eventValidation.messages'),
             trans('eventValidation.attributes'),

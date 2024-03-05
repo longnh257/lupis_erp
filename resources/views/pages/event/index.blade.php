@@ -14,19 +14,13 @@ $current_user = Auth::user();
     <!-- Page Header -->
     <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
         <div class="my-auto">
-            <h4 class="mb-0">Nhân Viên</h4>
+            <h4 class="mb-0">Lịch</h4>
             <nav>
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="javascript:void(0);">Trang Chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Nhân Viên</li>
+                    <li class="breadcrumb-item active" aria-current="page">Lịch</li>
                 </ol>
             </nav>
-        </div>
-        <div class="d-flex my-xl-auto right-content align-items-center">
-            <div>
-                <a href="{{route('view.user.create')}}" class="btn btn-info btn-icon btn-b" target="_blank">
-                    <i class="fe fe-plus"></i></a>
-            </div>
         </div>
     </div>
     <!-- End Page Header -->
@@ -124,16 +118,17 @@ $current_user = Auth::user();
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label for="start" class="col-form-label">Ngày:</label>
-                                <input type="date" class="form-control" name="start" id="datePickerId" v-model="selected_date">
+                                <label for="start" class="col-form-label required">Ngày:</label>
+                                <input type="date" class="form-control" name="start" id="datePickerId" v-model="selected_date" required>
                             </div>
 
                             @if($current_user->checkUserRole())
                             <div class="mb-2" v-if="event_type=='work'">
-                                <label for="shift" class="col-form-label">Nhân viên</label>
-                                <select type="date" class="form-control" name="shift" v-model="user">
+                                <label for="user_id" class="col-form-label required">Nhân viên</label>
+                                <select type="date" class="form-control" name="user_id" v-model="user" required>
+                                    <option value="">Chọn nhân viên</option>
                                     @foreach($users as $key => $user)
-                                    <option value="{{$user->id}}">{{$user->id . " " . $user->name}}</option>
+                                    <option value="{{$user->id}}">{{$user->id . " " . $user->name."  -  ".$user->role_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -393,6 +388,7 @@ $current_user = Auth::user();
                         timeGridDay: "Ngày",
                         listMonth: "Danh Sách",
                     },
+                    noEventsMessage:"Không có sự kiện",
                     allDayText: "",
                     fixedWeekCount: false,
                     navLinks: true,
@@ -502,6 +498,24 @@ $current_user = Auth::user();
     });
 </script>
 
+
+@if (session('changePasswordAlert'))
+<script>
+    notifier.warning(`{{ session('changePasswordAlert') }}`);
+</script>
+@endif
+
+@if ($errors->any())
+<script>
+    let alertMessage = `
+    @foreach ($errors->all() as $error)
+    <br>
+        {{ $error }}
+    @endforeach
+    `
+    notifier.alert(alertMessage);
+</script>
+@endif
 
 @if (session('error'))
 <script>
