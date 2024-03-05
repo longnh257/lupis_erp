@@ -84,7 +84,7 @@ class UserPageController extends Controller
             [
                 'name' => 'required|max:191',
                 'email' => 'email|required|max:191|unique:users,email,' . $model->id . ',id',
-                'password' => 'required|confirmed|min:8|max:191',
+                'password' => 'nullable|confirmed|min:8|max:191',
                 'role_id' => 'required',
                 'address' => 'max:191',
             ],
@@ -168,6 +168,8 @@ class UserPageController extends Controller
 
     public function destroy(User $model)
     {
+
+        $model->logActivity('account_delete', 'Xóa nhân viên', $model->id, Auth::id(), json_encode($model->load('salary_config')));
         $model->delete();
 
         return redirect()->route('view.user.index')

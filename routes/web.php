@@ -6,6 +6,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductLogController;
 use App\Http\Controllers\API\SalaryController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\UserLogController;
 use App\Http\Controllers\Pages\AuthController;
 use App\Http\Controllers\Pages\EventPageController;
 use App\Http\Controllers\Pages\HomeController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Pages\OrderPageController;
 use App\Http\Controllers\Pages\ProductLogPageController;
 use App\Http\Controllers\Pages\ProductPageController;
 use App\Http\Controllers\Pages\SalaryPageController;
+use App\Http\Controllers\Pages\UserLogPageController;
 use App\Http\Controllers\Pages\UserPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -86,6 +88,12 @@ Route::group(['middleware' => 'auth'], function () {
     });
     //end user
 
+    //User LOg
+    Route::group(['prefix' => 'user-log'], function () {
+        Route::get('/', [UserLogPageController::class, 'index'])->name('view.user-log.index');
+    });
+    //
+
     //salary
     Route::group(['prefix' => 'salary'], function () {
         Route::get('/', [SalaryPageController::class, 'index'])->name('view.salary.index');
@@ -112,6 +120,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'product-log'], function () {
             Route::get('/', [ProductLogController::class, 'index'])->name('api.product-log.list');
+        });
+
+        Route::group(['prefix' => 'user-log'], function () {
+            Route::get('/', [UserLogController::class, 'index'])->name('api.user-log.list');
         });
 
         Route::group(['prefix' => 'order'], function () {

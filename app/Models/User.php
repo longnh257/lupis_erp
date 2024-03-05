@@ -88,13 +88,14 @@ class User extends Authenticatable
         return $this->hasMany(UserLog::class);
     }
 
-    public function logActivity($action, $details = null, $user_id = null, $performed_by = null)
+    public function logActivity($action, $details = null, $user_id = null, $created_by_id = null, $json = null)
     {
         $this->logs()->create([
             'action' => $action,
             'details' => $details,
             'user_id' => $user_id,
-            'performed_by' => $performed_by,
+            'created_by_id' => $created_by_id,
+            'json_data' => $json,
         ]);
     }
 
@@ -104,7 +105,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::updating(function ($model) {
-            $model->logActivity('account_update', 'Cập nhật thông tin Nhân Viên', $model->id, Auth::id());
+            $model->logActivity('account_update', 'Cập nhật thông tin Nhân Viên', $model->id, Auth::id(), json_encode($model->load('salary_config')));
         });
     }
 }
