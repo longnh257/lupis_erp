@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(SalaryDetail::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'assigned_to', 'id');
+    }
+
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);

@@ -36,6 +36,7 @@ class SalaryPageController extends Controller
 
     public function store(Request $request)
     {
+
         $users = User::where('id', '!=',  1)->whereHas('salary_config')->with(['salary_config'])->get();
         $month = Carbon::parse($request->month)->format('m');
         $year = Carbon::parse($request->month)->format('Y');
@@ -44,10 +45,10 @@ class SalaryPageController extends Controller
 
         foreach ($users as $user) {
             // tính lương cho nhân viên theo ca
-            if ($user->salary_config->salary_type == 'by_shift') {
+            /*    if ($user->salary_config->salary_type == 'by_shift') {
                 $user->loadCount([
                     'events as work_shift_count' => function ($query) use ($startDate, $endDate) {
-                        $query->where('event_type', 'work')->whereBetween('start', [$startDate, $endDate]);
+                        $query->where('event_type', 'work')->where('status', 1)->whereBetween('start', [$startDate, $endDate]);
                     }
                 ]);
                 $shift_count = $user->work_shift_count;
@@ -73,10 +74,17 @@ class SalaryPageController extends Controller
                     'total_salary' => $total_salary,
                     'payday' => $request->payday,
                 ]);
-            }
+            } */
 
             // tính lương cho nhân viên theo lợi nhuận
             if ($user->salary_config->salary_type == 'by_revenue') {
+                $user->load(['orders' => function ($query) use ($startDate, $endDate) {
+                    $query->where('status', 'completed')->whereBetween('order_date', [$startDate, $endDate]);
+                }]);
+                $revenue =   $user->orders->sum(function ($item) {
+                    return $item->revenue;
+                });
+                dd($revenue);
             }
         }
         // Start a database transaction

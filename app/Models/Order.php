@@ -46,13 +46,18 @@ class Order extends Model
         return OrderStatus::getValue($this->status);
     }
 
+    public function getRevenueFormatAttribute()
+    {
+        return Helpers::currency_format($this->revenue);
+    }
+
     public function getRevenueAttribute()
     {
         $revenue = $this->order_items->sum(function ($item) {
             return $item->sell_quantity * $item->sell_price;
         });
 
-        return Helpers::currency_format($revenue);
+        return $revenue;
     }
 
     public function order_items()
