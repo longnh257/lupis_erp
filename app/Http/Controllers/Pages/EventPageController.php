@@ -58,4 +58,34 @@ class EventPageController extends Controller
     {
         dd($model->user);
     }
+
+    public function user_event()
+    {
+        return view('pages.event.user-event');
+    }
+
+    public function store_user_event(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $request->validate(
+            [
+                'start' => 'required|date',
+                'event_type' => 'required|string',
+            ],
+            trans('eventValidation.messages'),
+            trans('eventValidation.attributes'),
+        );
+        if ($request->event_type == 'work') {
+            $request['status'] = 1;
+        }
+        //cho phép admin chọn user để tạo lịch
+        if ($user->checkUserRole()) {
+        } else {
+            $request['user_id'] = Auth::id();
+        }
+        $event = Event::create($request->input());
+
+        return redirect()->route('view.user_event.index')
+            ->with('success', 'Thêm lịch thành công!');
+    }
 }

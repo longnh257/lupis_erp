@@ -85,6 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/{model}', [EventPageController::class, 'edit'])->name('view.event.edit');
         Route::put('/{model}', [EventPageController::class, 'updateStatus'])->name('view.event.updateStatus');
         Route::delete('/{model}', [EventPageController::class, 'delete'])->name('view.event.delete');
+        Route::get('/user-event', [EventPageController::class, 'user_event'])->name('view.user_event.index');
+        Route::post('/user-event', [EventPageController::class, 'store_user_event'])->name('view.user_event.store');
     });
     //end user
 
@@ -102,7 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/{model}', [SalaryPageController::class, 'edit'])->name('view.salary.edit');
         Route::put('/{model}', [SalaryPageController::class, 'update'])->name('view.salary.update');
         Route::put('/staff-update/{model}', [SalaryPageController::class, 'staff_update'])->name('view.salary.staff-update');
-        Route::delete('/{model}', [SalaryPageController::class, 'destroy'])->name('view.salary.destroy');
+        Route::delete('/{model}', [SalaryPageController::class, 'destroy'])->name('view.salary.destroy')->middleware('checkRole:superadmin,manager');
     });
     //end salary
 

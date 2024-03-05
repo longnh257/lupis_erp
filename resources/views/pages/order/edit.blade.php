@@ -211,6 +211,10 @@
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: 'Xác nhận',
                     cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        event.currentTarget.submit();
+                    }
                 })
             })
         })

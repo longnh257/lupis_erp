@@ -25,7 +25,7 @@ class SalaryController extends Controller
             $date = new Carbon($request->payday);
             $query->whereDate('payday', $date);
         }
-        
+
         if ($request->status) {
             $query->where('status', $request->status);
         }
@@ -42,10 +42,11 @@ class SalaryController extends Controller
         }
 
         $query->with(["user"]);
-        if (in_array(Auth::user()->role->name, ['full_time_driver', 'part_time_driver'])) {
-            $query->where('assigned_to', Auth::id());
+        $user = User::find(Auth::id());
+        if (!$user->checkUserRole()) {
+            $query->where('user_id', Auth::id());
         }
-        $datas = $query->orderBy('id','desc')->paginate($this->numPerPage);
+        $datas = $query->orderBy('id', 'desc')->paginate($this->numPerPage);
 
         return $this->hasSuccess('Lấy danh sách đơn hàng thành công!', $datas);
     }

@@ -140,11 +140,13 @@ $current_user = Auth::user();
                                 <td>
                                     <div class="hstack gap-2 ">
                                         <a :href="`{{asset('salary')}}/edit/`+item.id" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
+                                        @if($current_user->checkUserRole())
                                         <form :action="`{{asset('salary')}}/`+item.id" :id="'formDelete_'+((item.id))" class="pt-1" method="post">
                                             @method('DELETE')
                                             @csrf
                                             <a href="##" @click="deleteItem(item.id)" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
                                         </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
