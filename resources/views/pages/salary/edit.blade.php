@@ -4,6 +4,16 @@
 
 @section('content')
 
+
+<?php
+
+use App\Helper\Helpers;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+
+$current_user = User::find(Auth::id());
+?>
 <!-- Page Header -->
 <div class="d-md-flex d-block align-items-center justify-content-between my-4 mx-3 page-header-breadcrumb">
 </div>
@@ -52,6 +62,56 @@
                                 </tbody>
                             </table>
                         </div>
+                        @if($model->salary_type == 'by_shift')
+                        <table class="country-table table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div>Nhân viên</div>
+                                    </th>
+                                    <th>
+                                        <div>Số ca làm việc</div>
+                                    </th>
+                                    <th>
+                                        <div>Lương mỗi ca</div>
+                                    </th>
+                                    <th>
+                                        <div>Lương</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {{$model->user?->name}}
+                                    </td>
+                                    <td>
+                                        {{$model->shift_count}}
+                                    </td>
+                                    <td>
+                                        {{ Helpers::currency_format($model->basic_salary_per_shift)}}
+                                    </td>
+                                    <td>
+                                        {{$model->salary_format}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td class="text-end"><strong>Thưởng:</strong></td>
+                                    <td><span class="text-success">{{$model->bonus}} đ</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td style="border-bottom:none !important;"></td>
+                                    <td class="text-end"><strong>Thực nhận:</strong></td>
+                                    <td><span class="text-success">{{$model->total_salary_format}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        @else
                         <table class="country-table table text-nowrap">
                             <thead>
                                 <tr>
@@ -100,6 +160,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        @endif
                         <div class="col-md-12 mt-3">
                             <button type="submit" class="btn btn-primary w-100">Chốt</button>
                         </div>
