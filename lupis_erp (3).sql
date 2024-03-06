@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 05, 2024 lúc 08:08 PM
+-- Thời gian đã tạo: Th3 06, 2024 lúc 06:10 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -39,6 +39,16 @@ CREATE TABLE `events` (
   `note` text DEFAULT NULL,
   `reason` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `events`
+--
+
+INSERT INTO `events` (`id`, `start`, `user_id`, `event_type`, `shift`, `status`, `created_at`, `updated_at`, `note`, `reason`) VALUES
+(31, '2024-03-07', 8, 'work', '1', 1, '2024-03-06 17:02:07', '2024-03-06 17:02:07', NULL, NULL),
+(32, '2024-03-11', 9, 'work', '1', 1, '2024-03-06 17:02:16', '2024-03-06 17:02:16', NULL, NULL),
+(33, '2024-03-19', 9, 'work', '1', 1, '2024-03-06 17:02:24', '2024-03-06 17:02:24', NULL, NULL),
+(34, '2024-03-27', 9, 'work', '1', 1, '2024-03-06 17:02:32', '2024-03-06 17:02:32', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -431,7 +441,10 @@ CREATE TABLE `salary_details` (
 
 INSERT INTO `salary_details` (`id`, `user_id`, `salary_type`, `status`, `salary_month`, `basic_salary`, `basic_salary_per_shift`, `bonus_percentage`, `revenue`, `revenue_percentage`, `order_count`, `shift_count`, `salary`, `bonus`, `total_salary`, `payday`, `created_at`, `updated_at`) VALUES
 (27, 8, 'by_revenue', 0, '2024-03', 0.00, NULL, NULL, 7667883.00, 1.00, 3, NULL, 76678.83, 0.00, 76678.83, '2024-03-05', '2024-03-06 07:07:13', '2024-03-06 07:07:13'),
-(28, 10, 'by_revenue', 1, '2024-03', 0.00, NULL, NULL, 54216589.50, 10.00, 1, NULL, 5421658.95, 0.00, 5421658.95, '2024-03-05', '2024-03-06 07:07:13', '2024-03-06 07:07:49');
+(28, 10, 'by_revenue', 1, '2024-03', 0.00, NULL, NULL, 54216589.50, 10.00, 1, NULL, 5421658.95, 0.00, 5421658.95, '2024-03-05', '2024-03-06 07:07:13', '2024-03-06 07:07:49'),
+(29, 9, 'by_shift', 0, '2024-03', 0.00, 300000.00, NULL, 0.00, NULL, NULL, 3, 900000.00, 0.00, 900000.00, '2024-04-05', '2024-03-06 17:02:52', '2024-03-06 17:02:52'),
+(30, 8, 'by_revenue', 0, '2024-03', 0.00, NULL, NULL, 7667883.00, 1.00, 3, NULL, 76678.83, 0.00, 76678.83, '2024-04-05', '2024-03-06 17:02:52', '2024-03-06 17:02:52'),
+(31, 10, 'by_revenue', 0, '2024-03', 0.00, NULL, NULL, 54216589.50, 10.00, 1, NULL, 5421658.95, 0.00, 5421658.95, '2024-04-05', '2024-03-06 17:02:52', '2024-03-06 17:02:52');
 
 -- --------------------------------------------------------
 
@@ -531,7 +544,8 @@ INSERT INTO `user_logs` (`id`, `user_id`, `created_by_id`, `action`, `details`, 
 (26, 1, 1, 'login', 'Đăng nhập', NULL, '2024-03-05 22:58:50', '2024-03-05 22:58:50'),
 (27, 9, 9, 'login', 'Đăng nhập', NULL, '2024-03-06 01:20:49', '2024-03-06 01:20:49'),
 (28, 8, 8, 'login', 'Đăng nhập', NULL, '2024-03-06 01:21:13', '2024-03-06 01:21:13'),
-(29, 1, 1, 'login', 'Đăng nhập', NULL, '2024-03-06 04:46:46', '2024-03-06 04:46:46');
+(29, 1, 1, 'login', 'Đăng nhập', NULL, '2024-03-06 04:46:46', '2024-03-06 04:46:46'),
+(30, 1, 1, 'login', 'Đăng nhập', NULL, '2024-03-06 17:01:17', '2024-03-06 17:01:17');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -662,7 +676,7 @@ ALTER TABLE `user_logs`
 -- AUTO_INCREMENT cho bảng `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`
@@ -734,7 +748,7 @@ ALTER TABLE `salary_configs`
 -- AUTO_INCREMENT cho bảng `salary_details`
 --
 ALTER TABLE `salary_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT cho bảng `sold_items`
@@ -752,7 +766,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
